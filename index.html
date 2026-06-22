@@ -7,1159 +7,695 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Copa 2026">
-<meta name="theme-color" content="#080814">
-<title>Copa 2026 — Álbum Panini</title>
-
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23080814'/%3E%3Ctext y='75' x='50' text-anchor='middle' font-size='68'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23080814'/%3E%3Ctext y='75' x='50' text-anchor='middle' font-size='68'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
-
-<!-- Web App Manifest inline -->
-<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Copa+2026%22%2C%22short_name%22%3A%22Copa+2026%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23080814%22%2C%22theme_color%22%3A%22%23080814%22%7D">
-
+<meta name="theme-color" content="#0A0A1A">
+<title>FIFA World Cup 26 — Álbum Panini</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E6007E'/%3E%3Cstop offset='0.5' stop-color='%23FF6A00'/%3E%3Cstop offset='1' stop-color='%237B2FF7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%230A0A1A'/%3E%3Crect x='6' y='6' width='88' height='6' rx='3' fill='url(%23g)'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='58'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E6007E'/%3E%3Cstop offset='0.5' stop-color='%23FF6A00'/%3E%3Cstop offset='1' stop-color='%237B2FF7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%230A0A1A'/%3E%3Crect x='6' y='6' width='88' height='6' rx='3' fill='url(%23g)'/%3E%3Ctext y='74' x='50' text-anchor='middle' font-size='58'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22FIFA+World+Cup+26%22%2C%22short_name%22%3A%22Copa+2026%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230A0A1A%22%2C%22theme_color%22%3A%22%230A0A1A%22%7D">
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body,#root{height:100%;background:#080814}
+  html,body,#root{height:100%;background:#0A0A1A}
   body{overscroll-behavior:none;-webkit-overflow-scrolling:touch}
   select,input,button{font-family:inherit}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-track{background:#0d0d1f}
-  ::-webkit-scrollbar-thumb{background:#2a2a40;border-radius:4px}
+  ::-webkit-scrollbar-track{background:#13132B}
+  ::-webkit-scrollbar-thumb{background:#2A2A50;border-radius:4px}
 </style>
 </head>
 <body>
 <div id="root"></div>
-
-<!-- React + Babel via CDN -->
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-
 <script type="text/babel" data-presets="react">
-// Disponibiliza hooks do React globalmente
 const { useState, useMemo, useRef, useCallback, useEffect } = React;
 
-// React hooks disponíveis globalmente via CDN
-
-// ─── jsPDF via CDN ───────────────────────────────────────────────────────────
-function loadJsPDF() {
-  return new Promise((resolve, reject) => {
-    if (window.jspdf) { resolve(window.jspdf.jsPDF); return; }
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
-    s.onload = () => resolve(window.jspdf.jsPDF);
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-
-// ─── DATA ────────────────────────────────────────────────────────────────────
-
 const SELECOES = [
-  { id:"BRA", nome:"Brasil",         grupo:"A", bandeira:"🇧🇷", cor:"#009C3B" },
-  { id:"ARG", nome:"Argentina",      grupo:"A", bandeira:"🇦🇷", cor:"#74ACDF" },
-  { id:"COL", nome:"Colômbia",       grupo:"A", bandeira:"🇨🇴", cor:"#FCD116" },
-  { id:"PER", nome:"Peru",           grupo:"A", bandeira:"🇵🇪", cor:"#D91023" },
-  { id:"MEX", nome:"México",         grupo:"B", bandeira:"🇲🇽", cor:"#006847" },
-  { id:"USA", nome:"EUA",            grupo:"B", bandeira:"🇺🇸", cor:"#B31942" },
-  { id:"CAN", nome:"Canadá",         grupo:"B", bandeira:"🇨🇦", cor:"#CC0000" },
-  { id:"URU", nome:"Uruguai",        grupo:"B", bandeira:"🇺🇾", cor:"#5EB6E4" },
-  { id:"ESP", nome:"Espanha",        grupo:"C", bandeira:"🇪🇸", cor:"#AA151B" },
-  { id:"POR", nome:"Portugal",       grupo:"C", bandeira:"🇵🇹", cor:"#006600" },
-  { id:"FRA", nome:"França",         grupo:"C", bandeira:"🇫🇷", cor:"#002395" },
-  { id:"HOL", nome:"Holanda",        grupo:"C", bandeira:"🇳🇱", cor:"#FF6600" },
-  { id:"ALE", nome:"Alemanha",       grupo:"D", bandeira:"🇩🇪", cor:"#444444" },
-  { id:"ING", nome:"Inglaterra",     grupo:"D", bandeira:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", cor:"#CF081F" },
-  { id:"ITA", nome:"Itália",         grupo:"D", bandeira:"🇮🇹", cor:"#009246" },
-  { id:"DIN", nome:"Dinamarca",      grupo:"D", bandeira:"🇩🇰", cor:"#C60C30" },
-  { id:"JAP", nome:"Japão",          grupo:"E", bandeira:"🇯🇵", cor:"#BC002D" },
-  { id:"CRS", nome:"Coreia do Sul",  grupo:"E", bandeira:"🇰🇷", cor:"#003478" },
-  { id:"AUS", nome:"Austrália",      grupo:"E", bandeira:"🇦🇺", cor:"#00008B" },
-  { id:"IRN", nome:"Irã",            grupo:"E", bandeira:"🇮🇷", cor:"#239F40" },
-  { id:"MAR", nome:"Marrocos",       grupo:"F", bandeira:"🇲🇦", cor:"#C1272D" },
-  { id:"SEN", nome:"Senegal",        grupo:"F", bandeira:"🇸🇳", cor:"#00853F" },
-  { id:"NGR", nome:"Nigéria",        grupo:"F", bandeira:"🇳🇬", cor:"#008751" },
-  { id:"CMR", nome:"Camarões",       grupo:"F", bandeira:"🇨🇲", cor:"#007A5E" },
-  { id:"SRB", nome:"Sérvia",         grupo:"G", bandeira:"🇷🇸", cor:"#C6363C" },
-  { id:"SUI", nome:"Suíça",          grupo:"G", bandeira:"🇨🇭", cor:"#CC0000" },
-  { id:"CRO", nome:"Croácia",        grupo:"G", bandeira:"🇭🇷", cor:"#E8182C" },
-  { id:"TUR", nome:"Turquia",        grupo:"G", bandeira:"🇹🇷", cor:"#E30A17" },
-  { id:"SAU", nome:"Arábia Saudita", grupo:"H", bandeira:"🇸🇦", cor:"#006C35" },
-  { id:"EGI", nome:"Egito",          grupo:"H", bandeira:"🇪🇬", cor:"#CE1126" },
-  { id:"PAR", nome:"Paraguai",       grupo:"H", bandeira:"🇵🇾", cor:"#D52B1E" },
-  { id:"BOL", nome:"Bolívia",        grupo:"H", bandeira:"🇧🇴", cor:"#CC2200" },
-  { id:"POL", nome:"Polônia",        grupo:"I", bandeira:"🇵🇱", cor:"#DC143C" },
-  { id:"SVK", nome:"Eslováquia",     grupo:"I", bandeira:"🇸🇰", cor:"#0B4EA2" },
-  { id:"BEL", nome:"Bélgica",        grupo:"I", bandeira:"🇧🇪", cor:"#EF3340" },
-  { id:"AUT", nome:"Áustria",        grupo:"I", bandeira:"🇦🇹", cor:"#DD1111" },
-  { id:"PAN", nome:"Panamá",         grupo:"J", bandeira:"🇵🇦", cor:"#005293" },
-  { id:"COS", nome:"Costa Rica",     grupo:"J", bandeira:"🇨🇷", cor:"#002B7F" },
-  { id:"HON", nome:"Honduras",       grupo:"J", bandeira:"🇭🇳", cor:"#0073CF" },
-  { id:"VEN", nome:"Venezuela",      grupo:"J", bandeira:"🇻🇪", cor:"#CF142B" },
-  { id:"EQU", nome:"Equador",        grupo:"K", bandeira:"🇪🇨", cor:"#CC9900" },
-  { id:"CHI", nome:"Chile",          grupo:"K", bandeira:"🇨🇱", cor:"#D52B1E" },
-  { id:"AFR", nome:"Africa do Sul",  grupo:"K", bandeira:"🇿🇦", cor:"#007A4D" },
-  { id:"NZL", nome:"Nova Zelandia",  grupo:"K", bandeira:"🇳🇿", cor:"#00247D" },
-  { id:"ALB", nome:"Albania",        grupo:"L", bandeira:"🇦🇱", cor:"#E41E20" },
-  { id:"TCH", nome:"Rep. Tcheca",    grupo:"L", bandeira:"🇨🇿", cor:"#D7141A" },
-  { id:"ISL", nome:"Islandia",       grupo:"L", bandeira:"🇮🇸", cor:"#003897" },
-  { id:"GAL", nome:"Pais de Gales",  grupo:"L", bandeira:"🏴󠁧󠁢󠁷󠁬󠁳󠁿", cor:"#C8102E" },
+  // Grupo A
+  { id:"MEX", nome:"México", grupo:"A", bandeira:"🇲🇽", cor:"#0B7A4B" },
+  { id:"RSA", nome:"África do Sul", grupo:"A", bandeira:"🇿🇦", cor:"#007A4D" },
+  { id:"KOR", nome:"Coreia do Sul", grupo:"A", bandeira:"🇰🇷", cor:"#0A3D91" },
+  { id:"CZE", nome:"Rep. Tcheca", grupo:"A", bandeira:"🇨🇿", cor:"#11457E" },
+  // Grupo B
+  { id:"CAN", nome:"Canadá", grupo:"B", bandeira:"🇨🇦", cor:"#D52B1E" },
+  { id:"BIH", nome:"Bósnia", grupo:"B", bandeira:"🇧🇦", cor:"#1A4F9C" },
+  { id:"QAT", nome:"Catar", grupo:"B", bandeira:"🇶🇦", cor:"#8A1538" },
+  { id:"SUI", nome:"Suíça", grupo:"B", bandeira:"🇨🇭", cor:"#DA291C" },
+  // Grupo C
+  { id:"BRA", nome:"Brasil", grupo:"C", bandeira:"🇧🇷", cor:"#FFDC00" },
+  { id:"MAR", nome:"Marrocos", grupo:"C", bandeira:"🇲🇦", cor:"#C1272D" },
+  { id:"HAI", nome:"Haiti", grupo:"C", bandeira:"🇭🇹", cor:"#1A4FCC" },
+  { id:"SCO", nome:"Escócia", grupo:"C", bandeira:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", cor:"#0065BD" },
+  // Grupo D
+  { id:"USA", nome:"Estados Unidos", grupo:"D", bandeira:"🇺🇸", cor:"#3A5FCC" },
+  { id:"PAR", nome:"Paraguai", grupo:"D", bandeira:"🇵🇾", cor:"#D52B1E" },
+  { id:"AUS", nome:"Austrália", grupo:"D", bandeira:"🇦🇺", cor:"#FFCD00" },
+  { id:"TUR", nome:"Turquia", grupo:"D", bandeira:"🇹🇷", cor:"#E30A17" },
+  // Grupo E
+  { id:"GER", nome:"Alemanha", grupo:"E", bandeira:"🇩🇪", cor:"#FFCE00" },
+  { id:"CUW", nome:"Curaçao", grupo:"E", bandeira:"🇨🇼", cor:"#1A4FCC" },
+  { id:"CIV", nome:"Costa do Marfim", grupo:"E", bandeira:"🇨🇮", cor:"#FF8200" },
+  { id:"ECU", nome:"Equador", grupo:"E", bandeira:"🇪🇨", cor:"#FFD100" },
+  // Grupo F
+  { id:"NED", nome:"Holanda", grupo:"F", bandeira:"🇳🇱", cor:"#FF6600" },
+  { id:"JPN", nome:"Japão", grupo:"F", bandeira:"🇯🇵", cor:"#D81E3D" },
+  { id:"SWE", nome:"Suécia", grupo:"F", bandeira:"🇸🇪", cor:"#FECC02" },
+  { id:"TUN", nome:"Tunísia", grupo:"F", bandeira:"🇹🇳", cor:"#E70013" },
+  // Grupo G
+  { id:"BEL", nome:"Bélgica", grupo:"G", bandeira:"🇧🇪", cor:"#FDDA24" },
+  { id:"EGY", nome:"Egito", grupo:"G", bandeira:"🇪🇬", cor:"#CE1126" },
+  { id:"IRN", nome:"Irã", grupo:"G", bandeira:"🇮🇷", cor:"#239F40" },
+  { id:"NZL", nome:"Nova Zelândia", grupo:"G", bandeira:"🇳🇿", cor:"#1A4FCC" },
+  // Grupo H
+  { id:"ESP", nome:"Espanha", grupo:"H", bandeira:"🇪🇸", cor:"#E6101E" },
+  { id:"CPV", nome:"Cabo Verde", grupo:"H", bandeira:"🇨🇻", cor:"#1A56C8" },
+  { id:"KSA", nome:"Arábia Saudita", grupo:"H", bandeira:"🇸🇦", cor:"#0A8C45" },
+  { id:"URU", nome:"Uruguai", grupo:"H", bandeira:"🇺🇾", cor:"#5CBFEB" },
+  // Grupo I
+  { id:"FRA", nome:"França", grupo:"I", bandeira:"🇫🇷", cor:"#2266CC" },
+  { id:"SEN", nome:"Senegal", grupo:"I", bandeira:"🇸🇳", cor:"#00A550" },
+  { id:"IRQ", nome:"Iraque", grupo:"I", bandeira:"🇮🇶", cor:"#CE1126" },
+  { id:"NOR", nome:"Noruega", grupo:"I", bandeira:"🇳🇴", cor:"#D81030" },
+  // Grupo J
+  { id:"ARG", nome:"Argentina", grupo:"J", bandeira:"🇦🇷", cor:"#6CACE4" },
+  { id:"ALG", nome:"Argélia", grupo:"J", bandeira:"🇩🇿", cor:"#00A050" },
+  { id:"AUT", nome:"Áustria", grupo:"J", bandeira:"🇦🇹", cor:"#ED2939" },
+  { id:"JOR", nome:"Jordânia", grupo:"J", bandeira:"🇯🇴", cor:"#0A9D4D" },
+  // Grupo K
+  { id:"POR", nome:"Portugal", grupo:"K", bandeira:"🇵🇹", cor:"#DA291C" },
+  { id:"COD", nome:"RD Congo", grupo:"K", bandeira:"🇨🇩", cor:"#1A8FFF" },
+  { id:"UZB", nome:"Uzbequistão", grupo:"K", bandeira:"🇺🇿", cor:"#1EB53A" },
+  { id:"COL", nome:"Colômbia", grupo:"K", bandeira:"🇨🇴", cor:"#FCD116" },
+  // Grupo L
+  { id:"ENG", nome:"Inglaterra", grupo:"L", bandeira:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", cor:"#E6122A" },
+  { id:"CRO", nome:"Croácia", grupo:"L", bandeira:"🇭🇷", cor:"#FF1A1A" },
+  { id:"GHA", nome:"Gana", grupo:"L", bandeira:"🇬🇭", cor:"#00A050" },
+  { id:"PAN", nome:"Panamá", grupo:"L", bandeira:"🇵🇦", cor:"#1565C8" },
 ];
 
+// Figurinhas especiais dentro do álbum (total 20: completam as 980)
 const ESPECIAIS = [
-  { id:"SOMOS26",     label:"SOMOS26",             count:1  },
-  { id:"FWC",         label:"FWC (Metalizadas)",   count:8  },
-  { id:"FIFA_MUSEUM", label:"Museum",          count:11 },
+  { id:"SOMOS26",  label:"SOMOS26",  count:1  },  // figurinha de abertura
+  { id:"FWC",      label:"FWC",      count:8  },  // metalizadas: troféu, bola, sedes
+  { id:"HISTORY",  label:"History",  count:11 },  // FIFA World Cup History
 ];
+
+// Coca-Cola (14) sao extras FORA do album - opcionais
+const EXTRAS_CC = { id:"CC", label:"Coca-Cola", count:14 };
 
 const TOTAL_ALBUM = 980;
 
-const JOGADORES_LABELS = [
-  "Escudo (metalizado)",
-  "Goleiro 1","Goleiro 2",
-  "Zagueiro 1","Zagueiro 2","Zagueiro 3",
-  "Lateral Dir.","Lateral Esq.",
-  "Volante 1","Volante 2",
-  "Meia 1","Meia 2","Meia-atacante",
+// Numeração e nomes das figurinhas por seleção (1 a 20)
+const FIG_LABELS = [
+  "Escudo (foil)",
+  "Goleiro",
+  "Defensor 1","Defensor 2","Defensor 3","Defensor 4",
+  "Meio-campo 1","Meio-campo 2","Meio-campo 3","Meio-campo 4",
   "Atacante 1","Atacante 2","Atacante 3",
-  "Capitao","Tecnico",
-  "Foto do Grupo","Foto da Equipe",
+  "Craque do time","Estrela 2","Promessa",
+  "Técnico",
+  "Escalação","Time (foto) 1","Time (foto) 2",
 ];
 
 function gerarFigurinhasSel(sel) {
-  return JOGADORES_LABELS.map((label, i) => ({ num: i+1, label, especial: i===0 }));
+  return FIG_LABELS.map((label, i) => ({
+    num: i+1,
+    label,
+    codigo: `${sel.id}${i+1}`,
+    especial: i===0,
+  }));
 }
 
-// ─── STORAGE ──────────────────────────────────────────────────────────────────
+// Mapa rápido id->seleção
+const SEL_BY_ID = {};
+SELECOES.forEach(s => SEL_BY_ID[s.id] = s);
 
+// ─── STORAGE ──────────────────────────────────────────────────────────────────
 function useStorage() {
-  const KEY = "copa2026_v3";
+  const KEY = "copa2026_v4";
   const [coladas, setColadas] = useState(() => {
-    try { return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); }
-    catch { return new Set(); }
+    try { return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); } catch { return new Set(); }
   });
   const [repetidas, setRepetidas] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(KEY+"_rep")||"{}"); }
-    catch { return {}; }
+    try { return JSON.parse(localStorage.getItem(KEY+"_rep")||"{}"); } catch { return {}; }
   });
   const save = useCallback((c,r) => {
     localStorage.setItem(KEY, JSON.stringify([...c]));
     localStorage.setItem(KEY+"_rep", JSON.stringify(r));
   },[]);
   const toggle = useCallback((key) => {
-    setColadas(prev => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key); else next.add(key);
-      save(next, repetidas); return next;
-    });
+    setColadas(prev => { const n=new Set(prev); n.has(key)?n.delete(key):n.add(key); save(n,repetidas); return n; });
   },[repetidas,save]);
   const setRep = useCallback((key,val) => {
-    setRepetidas(prev => {
-      const next={...prev};
-      if(val<=0) delete next[key]; else next[key]=val;
-      save(coladas,next); return next;
-    });
+    setRepetidas(prev => { const n={...prev}; if(val<=0)delete n[key];else n[key]=val; save(coladas,n); return n; });
   },[coladas,save]);
-  const marcarLote = useCallback((keys,valor) => {
-    setColadas(prev => {
-      const next=new Set(prev);
-      keys.forEach(k => valor?next.add(k):next.delete(k));
-      save(next,repetidas); return next;
-    });
+  const marcarLote = useCallback((keys,v) => {
+    setColadas(prev => { const n=new Set(prev); keys.forEach(k=>v?n.add(k):n.delete(k)); save(n,repetidas); return n; });
   },[repetidas,save]);
   const addRepetida = useCallback((key) => {
-    setRepetidas(prev => {
-      const next={...prev,[key]:(prev[key]||0)+1};
-      save(coladas,next); return next;
-    });
+    setRepetidas(prev => { const n={...prev,[key]:(prev[key]||0)+1}; save(coladas,n); return n; });
   },[coladas,save]);
   return {coladas,repetidas,toggle,setRep,marcarLote,addRepetida};
 }
 
-// ─── PDF GENERATOR ────────────────────────────────────────────────────────────
+// ─── PALETA FIFA 2026 ─────────────────────────────────────────────────────────
+const FIFA = {
+  bg:       "#0A0A1A",
+  bgCard:   "#13132B",
+  bgCard2:  "#1B1B3A",
+  border:   "#2A2A50",
+  magenta:  "#E6007E",
+  orange:   "#FF6A00",
+  purple:   "#7B2FF7",
+  cyan:     "#00D9D9",
+  lime:     "#C4FF00",
+  text:     "#F5F5FF",
+  textDim:  "#9494B8",
+  green:    "#37E27B",
+  amber:    "#FFB020",
+};
+const GRAD = `linear-gradient(135deg, ${FIFA.magenta} 0%, ${FIFA.orange} 50%, ${FIFA.purple} 100%)`;
+const GRAD_TEXT = `linear-gradient(135deg, ${FIFA.magenta}, ${FIFA.orange})`;
 
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return [r,g,b];
+// ─── PDF ──────────────────────────────────────────────────────────────────────
+function loadJsPDF() {
+  return new Promise((res, rej) => {
+    if (window.jspdf) { res(window.jspdf.jsPDF); return; }
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload = () => res(window.jspdf.jsPDF); s.onerror = rej;
+    document.head.appendChild(s);
+  });
 }
+function hexToRgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
 
 async function gerarPDF(coladas, repetidas) {
   const JsPDF = await loadJsPDF();
-  const doc = new JsPDF({ orientation:"portrait", unit:"mm", format:"a4" });
+  const doc = new JsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  const PW=210,PH=297,ML=12,MR=12,MT=14,MB=12,CW=PW-ML-MR;
+  const C_BG=[10,10,26],C_MAG=[230,0,126],C_ORG=[255,106,0],C_PUR=[123,47,247];
+  const C_W=[245,245,255],C_DIM=[148,148,184],C_BORD=[42,42,80],C_DARK=[19,19,43],C_GREEN=[55,226,123],C_AMBER=[255,176,32];
+  const sT=a=>doc.setTextColor(...a), sF=a=>doc.setFillColor(...a), sD=a=>doc.setDrawColor(...a);
 
-  // Dimensões A4
-  const PW = 210, PH = 297;
-  const ML = 12, MR = 12, MT = 14, MB = 14;
-  const CW = PW - ML - MR; // largura útil = 186mm
+  let totC=0; SELECOES.forEach(s=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))totC++;});
+  const pct=Math.round(totC/TOTAL_ALBUM*100);
+  const totR=Object.values(repetidas).reduce((a,v)=>a+v,0);
+  const grupos={}; SELECOES.forEach(s=>{(grupos[s.grupo]=grupos[s.grupo]||[]).push(s);});
 
-  // Paleta
-  const C_BG   = [8, 8, 20];
-  const C_GOLD  = [232,200,74];
-  const C_WHITE = [240,240,240];
-  const C_GRAY  = [100,100,120];
-  const C_LGRAY = [40,40,65];
-  const C_GREEN = [74,222,128];
-  const C_AMBER = [245,158,11];
-  const C_DARK  = [20,20,40];
+  const SPP=6, totSelPg=Math.ceil(SELECOES.length/SPP), TOTPG=1+totSelPg;
 
-  // ── Funções auxiliares ──
-  function setRGB(arr) { doc.setTextColor(arr[0],arr[1],arr[2]); }
-  function setFillRGB(arr) { doc.setFillColor(arr[0],arr[1],arr[2]); }
-  function setDrawRGB(arr) { doc.setDrawColor(arr[0],arr[1],arr[2]); }
+  // CAPA
+  sF(C_BG); doc.rect(0,0,PW,PH,"F");
+  // Faixa gradiente (simulada em 3 retângulos)
+  sF(C_MAG); doc.rect(0,0,PW/3,3,"F");
+  sF(C_ORG); doc.rect(PW/3,0,PW/3,3,"F");
+  sF(C_PUR); doc.rect(2*PW/3,0,PW/3,3,"F");
+  sF(C_MAG); doc.rect(0,PH-3,PW/3,3,"F");
+  sF(C_ORG); doc.rect(PW/3,PH-3,PW/3,3,"F");
+  sF(C_PUR); doc.rect(2*PW/3,PH-3,PW/3,3,"F");
 
-  // Cabeçalho de página
-  function drawPageHeader(pg, totalPg) {
-    // Fundo escuro topo
-    setFillRGB(C_BG);
-    doc.rect(0,0,PW,MT+4,"F");
-    // Linha dourada
-    setFillRGB(C_GOLD);
-    doc.rect(0,MT+2,PW,0.7,"F");
-    // Título
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(9);
-    setRGB(C_GOLD);
-    doc.text("COPA DO MUNDO 2026 — Album Panini — Minhas Figurinhas", ML, MT-1);
-    // Paginação
-    doc.setFontSize(7);
-    setRGB(C_GRAY);
-    doc.text(`pag. ${pg} / ${totalPg}`, PW-MR, MT-1, {align:"right"});
-  }
+  doc.setFont("helvetica","bold"); doc.setFontSize(26); sT(C_W);
+  doc.text("FIFA WORLD CUP 26", PW/2, 52, {align:"center"});
+  doc.setFontSize(11); sT([255,106,0]);
+  doc.text("CANADA · MEXICO · USA", PW/2, 61, {align:"center"});
+  doc.setFontSize(13); sT(C_W);
+  doc.text("Album Panini — Minhas Figurinhas", PW/2, 73, {align:"center"});
 
-  function drawPageFooter() {
-    setFillRGB(C_BG);
-    doc.rect(0,PH-MB,PW,MB,"F");
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(7);
-    setRGB(C_GRAY);
-    const dt = new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"});
-    doc.text(`Gerado em ${dt}`, ML, PH-5);
-    doc.text("48 selecoes · 980 figurinhas", PW-MR, PH-5, {align:"right"});
-  }
-
-  // ── Monta dados ──
-  // Estatísticas gerais
-  let totalColadas = 0;
-  SELECOES.forEach(s => {
-    for (let i=1;i<=20;i++) if(coladas.has(`${s.id}_${i}`)) totalColadas++;
-  });
-  const pctGeral = Math.round((totalColadas/TOTAL_ALBUM)*100);
-  const totalRep = Object.values(repetidas).reduce((a,v)=>a+v,0);
-
-  // Agrupar seleções por grupo
-  const grupos = {};
-  SELECOES.forEach(s => {
-    if(!grupos[s.grupo]) grupos[s.grupo]=[];
-    grupos[s.grupo].push(s);
+  // Box stats
+  const BX=ML+8,BY=82,BW=CW-16,BH=48;
+  sF(C_DARK); doc.roundedRect(BX,BY,BW,BH,3,3,"F");
+  sD(C_BORD); doc.setLineWidth(0.4); doc.roundedRect(BX,BY,BW,BH,3,3,"S");
+  doc.setFont("helvetica","bold"); doc.setFontSize(8); sT(C_DIM);
+  doc.text("PROGRESSO GERAL", BX+BW/2, BY+9, {align:"center"});
+  doc.setFontSize(30); sT([255,106,0]);
+  doc.text(`${pct}%`, BX+BW/2, BY+23, {align:"center"});
+  const pbx=BX+8,pby=BY+27,pbw=BW-16,pbh=5;
+  sF(C_BORD); doc.roundedRect(pbx,pby,pbw,pbh,2,2,"F");
+  sF(C_MAG); doc.roundedRect(pbx,pby,pbw*pct/100,pbh,2,2,"F");
+  const c3=(BW-16)/3;
+  [["coladas",totC,C_GREEN],["faltando",TOTAL_ALBUM-totC,C_AMBER],["repetidas",totR,[255,106,0]]].forEach((s,i)=>{
+    const x=BX+8+i*c3+c3/2;
+    doc.setFont("helvetica","bold"); doc.setFontSize(15); sT(s[2]);
+    doc.text(String(s[1]),x,BY+40,{align:"center"});
+    doc.setFontSize(7); sT(C_DIM); doc.text(s[0],x,BY+45,{align:"center"});
   });
 
-  // ── Página 1: Capa / Resumo ──
-  let pg = 1;
-  // Calcular total páginas: capa + ceil(48/2) seleções por pag (2 cols × N rows)
-  // Cada seleção ocupa ~38mm. CW/2=93mm. Cabe 6 seleções por pag em 2 colunas → 24 por pag
-  // 48 seleções → 2 páginas de conteúdo + 1 capa = 3 páginas
-  const SELS_PER_PAGE = 6; // 2 colunas × 3 linhas
-  const totalSelPags = Math.ceil(SELECOES.length / SELS_PER_PAGE);
-  const TOTAL_PGS = 1 + totalSelPags;
-
-  // ── Página 1: Capa ──
-  setFillRGB(C_BG);
-  doc.rect(0,0,PW,PH,"F");
-
-  // Faixa dourada topo
-  setFillRGB(C_GOLD);
-  doc.rect(0,0,PW,2,"F");
-  doc.rect(0,PH-2,PW,2,"F");
-
-  // Título central
-  doc.setFont("helvetica","bold");
-  doc.setFontSize(22);
-  setRGB(C_GOLD);
-  doc.text("COPA DO MUNDO 2026", PW/2, 60, {align:"center"});
-
-  doc.setFontSize(13);
-  setRGB(C_WHITE);
-  doc.text("ALBUM PANINI", PW/2, 72, {align:"center"});
-
-  doc.setFontSize(9);
-  setRGB(C_GRAY);
-  doc.text("Controle de Figurinhas", PW/2, 80, {align:"center"});
-
-  // Linha separadora
-  setFillRGB(C_LGRAY);
-  doc.rect(ML+20, 86, CW-40, 0.4, "F");
-
-  // Stats box
-  const SBX = ML+10, SBY = 93, SBW = CW-20, SBH = 50;
-  setFillRGB(C_DARK);
-  doc.roundedRect(SBX, SBY, SBW, SBH, 3, 3, "F");
-  setDrawRGB(C_LGRAY);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(SBX, SBY, SBW, SBH, 3, 3, "S");
-
-  // Progresso geral — barra
-  doc.setFont("helvetica","bold");
-  doc.setFontSize(8);
-  setRGB(C_GRAY);
-  doc.text("PROGRESSO GERAL", SBX+SBW/2, SBY+9, {align:"center"});
-
-  doc.setFontSize(28);
-  setRGB(C_GOLD);
-  doc.text(`${pctGeral}%`, SBX+SBW/2, SBY+22, {align:"center"});
-
-  // Barra de progresso
-  const BX=SBX+8, BY=SBY+26, BW=SBW-16, BH=5;
-  setFillRGB(C_LGRAY);
-  doc.roundedRect(BX,BY,BW,BH,2,2,"F");
-  setFillRGB(C_GOLD);
-  doc.roundedRect(BX,BY,BW*(pctGeral/100),BH,2,2,"F");
-
-  // Números
-  const col3w = (SBW-16)/3;
-  const statsY = SBY+40;
-  [
-    {v:`${totalColadas}`, label:"coladas", c:C_GREEN},
-    {v:`${TOTAL_ALBUM-totalColadas}`, label:"faltando", c:C_AMBER},
-    {v:`${totalRep}`, label:"repetidas", c:[249,115,22]},
-  ].forEach((s,i) => {
-    const sx = SBX+8 + i*col3w + col3w/2;
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(14);
-    setRGB(s.c);
-    doc.text(s.v, sx, statsY, {align:"center"});
-    doc.setFontSize(7);
-    setRGB(C_GRAY);
-    doc.text(s.label, sx, statsY+6, {align:"center"});
-  });
-
-  // Resumo por grupo (tabela simples)
-  let gy = SBY + SBH + 14;
-  doc.setFont("helvetica","bold");
-  doc.setFontSize(8);
-  setRGB(C_GOLD);
-  doc.text("RESUMO POR GRUPO", ML, gy);
-  gy += 5;
-
-  const grpKeys = Object.keys(grupos).sort();
-  const GCOLS = 4;
-  const GCW = CW / GCOLS;
-
-  grpKeys.forEach((g, gi) => {
-    const col = gi % GCOLS;
-    const row = Math.floor(gi / GCOLS);
-    const gx = ML + col * GCW;
-    const gry = gy + row * 22;
-
-    const sels = grupos[g];
-    const tot = sels.length * 20;
-    const cnt = sels.reduce((acc,s) => {
-      for(let i=1;i<=20;i++) if(coladas.has(`${s.id}_${i}`)) acc++;
-      return acc;
-    }, 0);
-    const gpct = Math.round((cnt/tot)*100);
-
-    // Caixa
-    setFillRGB(C_DARK);
-    doc.roundedRect(gx, gry, GCW-2, 20, 1.5, 1.5, "F");
-
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(7);
-    setRGB(C_GOLD);
+  // Resumo grupos
+  let gy=BY+BH+13;
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); sT([230,0,126]);
+  doc.text("PROGRESSO POR GRUPO", ML, gy); gy+=6;
+  const GC=4, GW=CW/GC, gk=Object.keys(grupos).sort();
+  gk.forEach((g,gi)=>{
+    const col=gi%GC,row=Math.floor(gi/GC),gx=ML+col*GW,gry=gy+row*24;
+    const ss=grupos[g],tot=ss.length*20;
+    const cnt=ss.reduce((a,s)=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))a++;return a;},0);
+    const gp=Math.round(cnt/tot*100);
+    sF(C_DARK); doc.roundedRect(gx,gry,GW-2,22,1.5,1.5,"F");
+    sD(C_BORD); doc.setLineWidth(0.2); doc.roundedRect(gx,gry,GW-2,22,1.5,1.5,"S");
+    doc.setFont("helvetica","bold"); doc.setFontSize(7.5); sT([255,106,0]);
     doc.text(`GRUPO ${g}`, gx+3, gry+5);
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(6);
-    setRGB(C_GRAY);
-    doc.text(`${cnt}/${tot} (${gpct}%)`, gx+3, gry+9.5);
-
-    // Mini barra
-    const mbx=gx+3, mby=gry+12, mbw=GCW-8, mbh=3;
-    setFillRGB(C_LGRAY);
-    doc.roundedRect(mbx,mby,mbw,mbh,1,1,"F");
-    setFillRGB(C_GOLD);
-    if(gpct>0) doc.roundedRect(mbx,mby,mbw*(gpct/100),mbh,1,1,"F");
-
-    // Bandeiras
-    doc.setFontSize(6.5);
-    setRGB(C_GRAY);
-    doc.text(sels.map(s=>s.nome.substring(0,4)).join("  "), gx+3, gry+18);
+    doc.setFont("helvetica","normal"); doc.setFontSize(6); sT(C_DIM);
+    doc.text(`${cnt}/${tot} · ${gp}%`, gx+3, gry+9.5);
+    const mx=gx+3,my=gry+12,mw=GW-8,mh=2.5;
+    sF(C_BORD); doc.roundedRect(mx,my,mw,mh,1,1,"F");
+    if(gp>0){sF(C_MAG); doc.roundedRect(mx,my,mw*gp/100,mh,1,1,"F");}
+    doc.setFontSize(5.5); sT(C_DIM);
+    doc.text(ss.map(s=>s.nome.substring(0,5)).join(" "), gx+3, gry+18);
   });
+  gy+=Math.ceil(gk.length/GC)*24+8;
+  doc.setFont("helvetica","normal"); doc.setFontSize(7); sT(C_DIM);
+  doc.text(`Gerado em ${new Date().toLocaleString("pt-BR")}`, PW/2, gy, {align:"center"});
+  doc.text("48 selecoes · 980 figurinhas", PW/2, gy+5, {align:"center"});
+  doc.setFontSize(7); doc.text(`1 / ${TOTPG}`, PW-MR, PH-5, {align:"right"});
 
-  // Data geração
-  const dtFull = new Date().toLocaleString("pt-BR");
-  gy += Math.ceil(grpKeys.length/GCOLS)*22 + 10;
-  doc.setFont("helvetica","normal");
-  doc.setFontSize(7);
-  setRGB(C_GRAY);
-  doc.text(`Gerado em ${dtFull}`, PW/2, gy, {align:"center"});
-  doc.text("48 selecoes · 980 figurinhas · EUA, Canada e Mexico 2026", PW/2, gy+5, {align:"center"});
-
-  // Paginação capa
-  doc.setFontSize(7);
-  doc.text(`1 / ${TOTAL_PGS}`, PW-MR, PH-5, {align:"right"});
-
-  // ── Páginas de seleções ──
-  // Layout: 2 colunas × 3 linhas por página = 6 seleções/página
-  // Cada bloco: ~60mm altura, 91mm largura
-  const COL_NUM = 2;
-  const ROW_NUM = 3;
-  const BLK_W = (CW - 4) / COL_NUM;   // ~91mm
-  const BLK_H = (PH - MT - MB - 10) / ROW_NUM; // ~85mm
-  const CONTENT_TOP = MT + 6;
-
-  for (let si = 0; si < SELECOES.length; si++) {
-    const pageInBlock = Math.floor(si / SELS_PER_PAGE);
-    const posInPage   = si % SELS_PER_PAGE;
-
-    if (posInPage === 0) {
-      doc.addPage();
-      pg++;
-      setFillRGB(C_BG);
-      doc.rect(0,0,PW,PH,"F");
-      drawPageHeader(pg, TOTAL_PGS);
-      drawPageFooter();
+  // PAGINAS SELECOES
+  const CO=2,RO=3,BLW=(CW-4)/CO,BLH=(PH-MT-MB-8)/RO,CT=MT+4;
+  let pg=1;
+  for(let si=0;si<SELECOES.length;si++){
+    const pos=si%SPP;
+    if(pos===0){
+      doc.addPage(); pg++;
+      sF(C_BG); doc.rect(0,0,PW,PH,"F");
+      sF(C_MAG); doc.rect(0,0,PW/3,2.5,"F"); sF(C_ORG); doc.rect(PW/3,0,PW/3,2.5,"F"); sF(C_PUR); doc.rect(2*PW/3,0,PW/3,2.5,"F");
+      doc.setFont("helvetica","bold"); doc.setFontSize(8); sT([230,0,126]);
+      doc.text("FIFA WORLD CUP 26 — Minhas Figurinhas", ML, MT-2);
+      doc.setFontSize(7); sT(C_DIM); doc.text(`${pg} / ${TOTPG}`, PW-MR, MT-2, {align:"right"});
     }
+    const col=pos%CO,row=Math.floor(pos/CO),bx=ML+col*(BLW+4),by=CT+row*BLH;
+    const sel=SELECOES[si],figs=gerarFigurinhasSel(sel);
+    const keys=figs.map(f=>`${sel.id}_${f.num}`);
+    const cnt=keys.filter(k=>coladas.has(k)).length,pct2=Math.round(cnt/20*100);
+    const rT=keys.reduce((a,k)=>a+(repetidas[k]||0),0);
+    const [cr,cg,cb]=hexToRgb(sel.cor);
 
-    const col = posInPage % COL_NUM;
-    const row = Math.floor(posInPage / COL_NUM);
-    const bx  = ML + col * (BLK_W + 4);
-    const by  = CONTENT_TOP + row * BLK_H;
-
-    const sel = SELECOES[si];
-    const figs = gerarFigurinhasSel(sel);
-    const keys = figs.map(f=>`${sel.id}_${f.num}`);
-    const cnt  = keys.filter(k=>coladas.has(k)).length;
-    const pct  = Math.round((cnt/20)*100);
-    const rTotal = keys.reduce((a,k)=>a+(repetidas[k]||0),0);
-    const [cr,cg,cb] = hexToRgb(sel.cor);
-
-    // ── Bloco de seleção ──
-    // Fundo
-    setFillRGB(C_DARK);
-    doc.roundedRect(bx, by, BLK_W, BLK_H-2, 2, 2, "F");
-    // Borda lateral colorida da seleção
-    setFillRGB([cr,cg,cb]);
-    doc.roundedRect(bx, by, 2.5, BLK_H-2, 1, 1, "F");
-
-    // Cabeçalho do bloco
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(8.5);
-    setRGB(C_WHITE);
-    doc.text(sel.nome.toUpperCase(), bx+5, by+6);
-
-    // Grupo badge
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(6);
-    setRGB([cr,cg,cb]);
-    doc.text(`GRP ${sel.grupo}`, bx+BLK_W-3, by+6, {align:"right"});
-
-    // Progresso linha
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(7);
-    setRGB(pct===100?C_GREEN:C_GOLD);
+    sF(C_DARK); doc.roundedRect(bx,by,BLW,BLH-2,2,2,"F");
+    sF([cr,cg,cb]); doc.roundedRect(bx,by,2.5,BLH-2,1,1,"F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); sT(C_W);
+    doc.text(sel.nome.toUpperCase().substring(0,18), bx+5, by+6);
+    doc.setFont("helvetica","normal"); doc.setFontSize(6); sT([cr,cg,cb]);
+    doc.text(`G${sel.grupo} · ${sel.id}`, bx+BLW-3, by+6, {align:"right"});
+    doc.setFont("helvetica","bold"); doc.setFontSize(7); sT(pct2===100?C_GREEN:[255,106,0]);
     doc.text(`${cnt}/20`, bx+5, by+12);
-    if(rTotal>0) {
-      doc.setFontSize(6);
-      setRGB(C_AMBER);
-      doc.text(`${rTotal} rep.`, bx+22, by+12);
-    }
+    if(rT>0){doc.setFontSize(6); sT(C_AMBER); doc.text(`${rT} rep`, bx+20, by+12);}
+    const px=bx+5,py=by+14,pw=BLW-10,ph=2.5;
+    sF(C_BORD); doc.roundedRect(px,py,pw,ph,1,1,"F");
+    if(pct2>0){sF(pct2===100?C_GREEN:[230,0,126]); doc.roundedRect(px,py,pw*pct2/100,ph,1,1,"F");}
+    sF(C_BORD); doc.rect(bx+5,by+19,BLW-10,0.3,"F");
 
-    // Mini barra progresso
-    const pbx=bx+5, pby=by+14, pbw=BLK_W-10, pbh=2.5;
-    setFillRGB(C_LGRAY);
-    doc.roundedRect(pbx,pby,pbw,pbh,1,1,"F");
-    if(pct>0) {
-      setFillRGB(pct===100?C_GREEN:C_GOLD);
-      doc.roundedRect(pbx,pby,pbw*(pct/100),pbh,1,1,"F");
-    }
-
-    // Linha divisória
-    setFillRGB(C_LGRAY);
-    doc.rect(bx+5, by+19, BLK_W-10, 0.3, "F");
-
-    // Grid de figurinhas: 4 colunas × 5 linhas = 20 figurinhas
-    const FCOLS = 4, FROWS = 5;
-    const FW = (BLK_W-10) / FCOLS;
-    const FH = (BLK_H - 25) / FROWS;
-    const FX0 = bx+5, FY0 = by+21;
-
-    figs.forEach((fig,fi) => {
-      const fc  = fi % FCOLS;
-      const fr  = Math.floor(fi/FCOLS);
-      const fx  = FX0 + fc*FW;
-      const fy  = FY0 + fr*FH;
-      const key = `${sel.id}_${fig.num}`;
-      const has = coladas.has(key);
-      const rep = repetidas[key]||0;
-
-      // Fundo célula
-      if(has) {
-        setFillRGB([14,42,14]);
-        doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"F");
-        // Borda verde
-        setDrawRGB(C_GREEN);
-        doc.setLineWidth(0.2);
-        doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"S");
-      } else {
-        setFillRGB([15,15,26]);
-        doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"F");
-        setDrawRGB(C_LGRAY);
-        doc.setLineWidth(0.15);
-        doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"S");
-      }
-
-      // Número
-      doc.setFont("helvetica",has?"bold":"normal");
-      doc.setFontSize(5.5);
-      setRGB(has?C_GREEN:C_GRAY);
-      doc.text(`#${fig.num}`, fx+1.2, fy+3.8);
-
-      // Label truncado
-      const lbl = fig.label.length>11 ? fig.label.substring(0,10)+"." : fig.label;
-      doc.setFont("helvetica","normal");
-      doc.setFontSize(4.5);
-      setRGB(has?[180,255,180]:C_GRAY);
-      doc.text(lbl, fx+1.2, fy+6.5);
-
-      // Check mark
-      if(has) {
-        doc.setFont("helvetica","bold");
-        doc.setFontSize(6);
-        setRGB(C_GREEN);
-        doc.text("✓", fx+FW-4, fy+3.8);
-      }
-
-      // Repetida badge
-      if(rep>0) {
-        setFillRGB([120,53,15]);
-        doc.roundedRect(fx+1,fy+FH-4,6,3,0.5,0.5,"F");
-        doc.setFont("helvetica","bold");
-        doc.setFontSize(4);
-        setRGB([245,158,11]);
-        doc.text(`x${rep}`, fx+2, fy+FH-2);
-      }
-
-      // Estrela para especial
-      if(fig.especial) {
-        doc.setFontSize(4.5);
-        setRGB(C_GOLD);
-        doc.text("★", fx+FW-3.5, fy+FH-2);
-      }
+    const FC=4,FW=(BLW-10)/FC,FH=(BLH-25)/5,FX=bx+5,FY=by+21;
+    figs.forEach((f,fi)=>{
+      const fc=fi%FC,fr=Math.floor(fi/FC),fx=FX+fc*FW,fy=FY+fr*FH;
+      const k=`${sel.id}_${f.num}`,has=coladas.has(k),rep=repetidas[k]||0;
+      if(has){sF([14,42,24]); doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"F"); sD(C_GREEN); doc.setLineWidth(0.2); doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"S");}
+      else{sF([15,15,30]); doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"F"); sD(C_BORD); doc.setLineWidth(0.15); doc.roundedRect(fx,fy,FW-1,FH-1,0.8,0.8,"S");}
+      doc.setFont("helvetica",has?"bold":"normal"); doc.setFontSize(5.5); sT(has?C_GREEN:C_DIM);
+      doc.text(f.codigo, fx+1.2, fy+3.8);
+      doc.setFont("helvetica","normal"); doc.setFontSize(4.3); sT(has?[180,255,200]:C_DIM);
+      doc.text(f.label.length>12?f.label.substring(0,11)+".":f.label, fx+1.2, fy+6.4);
+      if(has){doc.setFont("helvetica","bold"); doc.setFontSize(6); sT(C_GREEN); doc.text("ok", fx+FW-4, fy+3.8);}
+      if(rep>0){sF([120,53,15]); doc.roundedRect(fx+1,fy+FH-4,6,3,0.5,0.5,"F"); doc.setFont("helvetica","bold"); doc.setFontSize(4); sT(C_AMBER); doc.text(`x${rep}`, fx+2, fy+FH-2);}
+      if(f.especial){doc.setFontSize(4.5); sT([255,176,32]); doc.text("*", fx+FW-3, fy+FH-2);}
     });
   }
-
   return doc;
 }
 
-// ─── CLAUDE API ──────────────────────────────────────────────────────────────
-
-async function callClaude(messages, systemPrompt) {
+// ─── CLAUDE API ───────────────────────────────────────────────────────────────
+async function callClaude(messages, system) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ model:"claude-sonnet-4-6", max_tokens:1000, system:systemPrompt, messages }),
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system,messages}),
   });
   const data = await res.json();
   return data.content?.find(b=>b.type==="text")?.text||"";
 }
+function imageToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(",")[1]);r.onerror=rej;r.readAsDataURL(file);});}
 
-function imageToBase64(file) {
-  return new Promise((res,rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result.split(",")[1]);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
-
-// ─── COMPONENTES BASE ─────────────────────────────────────────────────────────
-
-function ProgressBar({pct,color}) {
+// ─── COMPONENTES ──────────────────────────────────────────────────────────────
+function ProgressBar({pct,grad}) {
   return (
-    <div style={{background:"#1a1a2e",borderRadius:8,height:7,overflow:"hidden"}}>
+    <div style={{background:"#0A0A1A",borderRadius:8,height:8,overflow:"hidden",border:"1px solid #2A2A50"}}>
       <div style={{width:`${Math.min(pct,100)}%`,height:"100%",
-        background:`linear-gradient(90deg,${color||"#e8c84a"},${color||"#e8c84a"}88)`,
+        background: grad || `linear-gradient(90deg,${FIFA.magenta},${FIFA.orange})`,
         borderRadius:8,transition:"width 0.4s ease"}}/>
     </div>
   );
 }
-
-function Badge({children,color="#1e1e35"}) {
-  return (
-    <span style={{background:color,color:"#fff",borderRadius:20,
-      padding:"2px 9px",fontSize:10,fontWeight:700}}>{children}</span>
-  );
+function Badge({children,bg,fg}) {
+  return <span style={{background:bg||"#2A2A50",color:fg||"#F5F5FF",borderRadius:20,padding:"2px 9px",fontSize:10,fontWeight:800,letterSpacing:0.3}}>{children}</span>;
 }
 
 // ─── CÂMERA MODAL ─────────────────────────────────────────────────────────────
-
 function CameraModal({modo,onClose,onConfirm,coladas}) {
-  const [fase,setFase] = useState("captura");
-  const [imgSrc,setImgSrc] = useState(null);
-  const [imgFile,setImgFile] = useState(null);
-  const [resultado,setResultado] = useState(null);
-  const [erro,setErro] = useState(null);
-  const fileRef = useRef();
-  const videoRef = useRef();
-  const [usarCamera,setUsarCamera] = useState(false);
-  const [stream,setStream] = useState(null);
-
+  const [fase,setFase]=useState("captura");
+  const [imgSrc,setImgSrc]=useState(null);
+  const [imgFile,setImgFile]=useState(null);
+  const [resultado,setResultado]=useState(null);
+  const [erro,setErro]=useState(null);
+  const fileRef=useRef(),videoRef=useRef();
+  const [usarCamera,setUsarCamera]=useState(false);
+  const [stream,setStream]=useState(null);
   useEffect(()=>()=>{if(stream)stream.getTracks().forEach(t=>t.stop());},[stream]);
 
-  async function abrirCamera() {
-    try {
-      const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1280},height:{ideal:720}}});
-      setStream(s); setUsarCamera(true);
-      setTimeout(()=>{if(videoRef.current)videoRef.current.srcObject=s;},100);
-    } catch { fileRef.current?.click(); }
+  async function abrirCamera(){
+    try{const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1280},height:{ideal:720}}});
+      setStream(s);setUsarCamera(true);setTimeout(()=>{if(videoRef.current)videoRef.current.srcObject=s;},100);
+    }catch{fileRef.current?.click();}
   }
+  function capturar(){const v=videoRef.current;if(!v)return;const c=document.createElement("canvas");c.width=v.videoWidth;c.height=v.videoHeight;c.getContext("2d").drawImage(v,0,0);c.toBlob(b=>{setImgFile(new File([b],"c.jpg",{type:"image/jpeg"}));setImgSrc(c.toDataURL("image/jpeg"));stream?.getTracks().forEach(t=>t.stop());setUsarCamera(false);},"image/jpeg",0.85);}
+  function selArq(e){const f=e.target.files[0];if(!f)return;setImgFile(f);setImgSrc(URL.createObjectURL(f));}
 
-  function capturarFrame() {
-    const v=videoRef.current; if(!v) return;
-    const c=document.createElement("canvas"); c.width=v.videoWidth; c.height=v.videoHeight;
-    c.getContext("2d").drawImage(v,0,0);
-    c.toBlob(blob=>{
-      const f=new File([blob],"cap.jpg",{type:"image/jpeg"});
-      setImgFile(f); setImgSrc(c.toDataURL("image/jpeg"));
-      stream?.getTracks().forEach(t=>t.stop()); setUsarCamera(false);
-    },"image/jpeg",0.85);
-  }
-
-  function selecionarArquivo(e) {
-    const f=e.target.files[0]; if(!f) return;
-    setImgFile(f); setImgSrc(URL.createObjectURL(f));
-  }
-
-  async function analisar() {
-    if(!imgFile) return;
-    setFase("analisando"); setErro(null);
-    try {
-      const b64 = await imageToBase64(imgFile);
-      const selIds = SELECOES.map(s=>`${s.id}:${s.nome}`).join(", ");
-
-      if(modo==="pagina") {
-        const system = `Voce e especialista no album de figurinhas Copa 2026 Panini. 48 selecoes, cada uma com 20 figurinhas (1=Escudo metalizado, 2-3=Goleiros, 4-6=Zagueiros, 7-8=Laterais, 9-10=Volantes, 11-13=Meias, 14-16=Atacantes, 17=Capitao, 18=Tecnico, 19-20=Fotos). IDs disponiveis: ${selIds}. Analise a imagem da pagina do album. Identifique espacos com figurinha colada vs vazios. Responda SOMENTE JSON valido sem markdown: {"selecao_id":"ID","selecao_nome":"NOME","coladas":[1,2,5],"vazias":[3,4],"confianca":"alta|media|baixa","observacao":"..."}`;
-        const text = await callClaude([{role:"user",content:[
-          {type:"image",source:{type:"base64",media_type:imgFile.type,data:b64}},
-          {type:"text",text:"Analise esta pagina do album."}
-        ]}],system);
-        setResultado({tipo:"pagina",dados:JSON.parse(text.replace(/```json|```/g,"").trim())});
-      } else {
-        const system = `Voce e especialista em figurinhas Copa 2026 Panini. Analise o verso da figurinha. IDs: ${selIds}. Identifique selecao e numero (1-20). Responda SOMENTE JSON valido sem markdown: {"selecao_id":"ID","selecao_nome":"NOME","numero":5,"descricao":"...","confianca":"alta|media|baixa"}`;
-        const text = await callClaude([{role:"user",content:[
-          {type:"image",source:{type:"base64",media_type:imgFile.type,data:b64}},
-          {type:"text",text:"Identifique esta figurinha pelo verso."}
-        ]}],system);
-        setResultado({tipo:"verso",dados:JSON.parse(text.replace(/```json|```/g,"").trim())});
+  async function analisar(){
+    if(!imgFile)return; setFase("analisando"); setErro(null);
+    try{
+      const b64=await imageToBase64(imgFile);
+      const ids=SELECOES.map(s=>`${s.id}:${s.nome}`).join(", ");
+      if(modo==="pagina"){
+        const sys=`Voce e especialista no album Copa 2026 Panini. 48 selecoes, cada uma com 20 figurinhas (1=Escudo foil, 2=Goleiro, 3-6=Defensores, 7-10=Meio-campo, 11-13=Atacantes, 14-16=Craques, 17=Tecnico, 18=Escalacao, 19-20=Fotos do time). IDs: ${ids}. Analise a pagina e identifique espacos colados vs vazios. Responda SOMENTE JSON: {"selecao_id":"ID","selecao_nome":"NOME","coladas":[1,2],"vazias":[3,4],"confianca":"alta|media|baixa","observacao":"..."}`;
+        const t=await callClaude([{role:"user",content:[{type:"image",source:{type:"base64",media_type:imgFile.type,data:b64}},{type:"text",text:"Analise esta pagina."}]}],sys);
+        setResultado({tipo:"pagina",dados:JSON.parse(t.replace(/```json|```/g,"").trim())});
+      }else{
+        const sys=`Voce e especialista em figurinhas Copa 2026 Panini. No verso ha um codigo tipo BRA5 (sigla da selecao + numero 1-20). IDs: ${ids}. Identifique selecao e numero. Responda SOMENTE JSON: {"selecao_id":"ID","selecao_nome":"NOME","numero":5,"descricao":"...","confianca":"alta|media|baixa"}`;
+        const t=await callClaude([{role:"user",content:[{type:"image",source:{type:"base64",media_type:imgFile.type,data:b64}},{type:"text",text:"Identifique pelo verso."}]}],sys);
+        setResultado({tipo:"verso",dados:JSON.parse(t.replace(/```json|```/g,"").trim())});
       }
       setFase("resultado");
-    } catch(e) {
-      setErro("Erro ao analisar. Tente novamente."); setFase("captura");
-    }
+    }catch(e){setErro("Erro ao analisar. Tente novamente.");setFase("captura");}
   }
-
-  function confirmar(acao) { onConfirm(resultado,acao); onClose(); }
-
-  const corConf = {alta:"#4ade80",media:"#f59e0b",baixa:"#f87171"};
+  function confirmar(a){onConfirm(resultado,a);onClose();}
+  const cc={alta:FIFA.green,media:FIFA.amber,baixa:"#F87171"};
 
   return (
-    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.93)",zIndex:1000,display:"flex",flexDirection:"column",overflowY:"auto"}}>
-      <div style={{background:"#0d0d1f",borderBottom:"1px solid #1e1e35",padding:"14px 16px",display:"flex",alignItems:"center",gap:12,position:"sticky",top:0,zIndex:10}}>
-        <button onClick={onClose} style={{background:"#1e1e35",border:"none",borderRadius:8,color:"#aaa",padding:"6px 10px",cursor:"pointer",fontSize:16}}>←</button>
+    <div style={{position:"fixed",inset:0,background:"rgba(5,5,15,0.95)",zIndex:1000,display:"flex",flexDirection:"column",overflowY:"auto"}}>
+      <div style={{background:FIFA.bgCard,borderBottom:`1px solid ${FIFA.border}`,padding:"14px 16px",display:"flex",alignItems:"center",gap:12,position:"sticky",top:0,zIndex:10}}>
+        <button onClick={onClose} style={{background:FIFA.border,border:"none",borderRadius:8,color:FIFA.text,padding:"6px 11px",cursor:"pointer",fontSize:16,fontWeight:700}}>←</button>
         <div>
-          <div style={{fontWeight:700,fontSize:14,color:"#e0e0e0"}}>{modo==="pagina"?"📖 Escanear Página":"🔍 Identificar Figurinha"}</div>
-          <div style={{fontSize:11,color:"#555"}}>{modo==="pagina"?"Fotografe a página aberta do álbum":"Fotografe o verso da figurinha"}</div>
+          <div style={{fontWeight:800,fontSize:14,color:FIFA.text}}>{modo==="pagina"?"📖 Escanear Página":"🔍 Identificar Figurinha"}</div>
+          <div style={{fontSize:11,color:FIFA.textDim}}>{modo==="pagina"?"Fotografe a página aberta":"Fotografe o verso da figurinha"}</div>
         </div>
       </div>
-
       <div style={{padding:16,flex:1}}>
-        {fase==="captura" && (
-          <div>
-            {usarCamera && (
-              <div style={{marginBottom:16,borderRadius:12,overflow:"hidden",border:"2px solid #e8c84a"}}>
-                <video ref={videoRef} autoPlay playsInline style={{width:"100%",display:"block",maxHeight:360,objectFit:"cover"}}/>
-                <button onClick={capturarFrame} style={{width:"100%",background:"#e8c84a",border:"none",color:"#000",padding:14,fontSize:15,fontWeight:700,cursor:"pointer"}}>📸 Capturar</button>
-              </div>
-            )}
-            {imgSrc&&!usarCamera&&(
-              <div style={{marginBottom:16,borderRadius:12,overflow:"hidden",border:"2px solid #2a2a40"}}>
-                <img src={imgSrc} alt="preview" style={{width:"100%",display:"block",maxHeight:400,objectFit:"contain",background:"#0a0a14"}}/>
-              </div>
-            )}
-            {!usarCamera&&(
-              <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                {!imgSrc&&(
-                  <div style={{background:"#0d0d1f",border:"1px dashed #2a2a40",borderRadius:12,padding:20,textAlign:"center",marginBottom:4}}>
-                    <div style={{fontSize:40,marginBottom:8}}>{modo==="pagina"?"📖":"🔄"}</div>
-                    <div style={{color:"#888",fontSize:13}}>{modo==="pagina"?"Abra o álbum na página e tire uma foto nítida":"Coloque o verso da figurinha para cima e tire uma foto nítida"}</div>
-                  </div>
-                )}
-                <button onClick={abrirCamera} style={{background:"#e8c84a",border:"none",borderRadius:10,color:"#000",padding:14,fontSize:14,fontWeight:700,cursor:"pointer"}}>📷 Abrir câmera</button>
-                <button onClick={()=>fileRef.current?.click()} style={{background:"#1e1e35",border:"1px solid #3a3a60",borderRadius:10,color:"#e0e0e0",padding:12,fontSize:13,fontWeight:600,cursor:"pointer"}}>🖼 Galeria</button>
-                <input ref={fileRef} type="file" accept="image/*" style={{display:"none"}} onChange={selecionarArquivo}/>
-                {imgSrc&&(
-                  <button onClick={analisar} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:10,color:"#fff",padding:14,fontSize:14,fontWeight:700,cursor:"pointer",marginTop:4}}>✨ Analisar com IA</button>
-                )}
-                {erro&&<div style={{background:"#2a0a0a",border:"1px solid #7f1d1d",borderRadius:8,padding:12,color:"#f87171",fontSize:13}}>{erro}</div>}
-              </div>
-            )}
-          </div>
-        )}
-
-        {fase==="analisando"&&(
-          <div style={{textAlign:"center",padding:"60px 20px"}}>
-            {imgSrc&&<div style={{marginBottom:24,borderRadius:12,overflow:"hidden",opacity:0.5}}><img src={imgSrc} alt="p" style={{width:"100%",maxHeight:200,objectFit:"contain"}}/></div>}
-            <div style={{fontSize:40,marginBottom:16}}>✨</div>
-            <div style={{color:"#e8c84a",fontWeight:700,fontSize:16,marginBottom:8}}>Analisando com IA...</div>
-            <div style={{color:"#555",fontSize:13}}>{modo==="pagina"?"Identificando figurinhas na página":"Identificando a figurinha pelo verso"}</div>
-          </div>
-        )}
-
-        {fase==="resultado"&&resultado&&(
-          <div>
-            {imgSrc&&<div style={{marginBottom:14,borderRadius:12,overflow:"hidden",border:"2px solid #2a2a40"}}><img src={imgSrc} alt="p" style={{width:"100%",maxHeight:220,objectFit:"contain",background:"#0a0a14"}}/></div>}
-
-            {resultado.tipo==="pagina"&&(()=>{
-              const d=resultado.dados;
-              const sel=SELECOES.find(s=>s.id===d.selecao_id);
-              const figs=sel?gerarFigurinhasSel(sel):[];
-              const novas=(d.coladas||[]).filter(n=>!coladas.has(`${d.selecao_id}_${n}`));
-              return (
-                <div>
-                  <div style={{background:"#0d0d1f",borderRadius:12,padding:14,marginBottom:12,border:"1px solid #1e1e35"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
-                      <span style={{fontSize:28}}>{sel?.bandeira||"🏳"}</span>
-                      <div>
-                        <div style={{fontWeight:700,fontSize:15}}>{d.selecao_nome||"Desconhecida"}</div>
-                        <div style={{display:"flex",gap:6,marginTop:4}}>
-                          <Badge color={corConf[d.confianca]}>Confiança: {d.confianca}</Badge>
-                          <Badge color="#1e3a5f">{(d.coladas||[]).length} coladas · {(d.vazias||[]).length} vazias</Badge>
-                        </div>
-                      </div>
-                    </div>
-                    {d.observacao&&<div style={{fontSize:12,color:"#666",fontStyle:"italic"}}>{d.observacao}</div>}
-                  </div>
-                  <div style={{background:"#0d0d1f",borderRadius:12,padding:14,marginBottom:14,border:"1px solid #1e1e35"}}>
-                    <div style={{fontSize:13,fontWeight:700,color:"#e0e0e0",marginBottom:10}}>Figurinhas identificadas:</div>
-                    <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:6}}>
-                      {figs.map(f=>{
-                        const isC=(d.coladas||[]).includes(f.num);
-                        const jaE=coladas.has(`${d.selecao_id}_${f.num}`);
-                        return(
-                          <div key={f.num} style={{background:isC?(jaE?"#1a2a1a":"#0f2a0f"):"#0f0f1a",border:`1.5px solid ${isC?(jaE?"#4ade8066":"#4ade80"):"#2a2a40"}`,borderRadius:8,padding:"6px 4px",textAlign:"center"}}>
-                            <div style={{fontSize:11,fontWeight:700,color:isC?"#4ade80":"#444"}}>#{f.num}</div>
-                            {isC&&<div style={{fontSize:8,color:jaE?"#4ade8066":"#4ade80",marginTop:2}}>{jaE?"já tinha":"nova"}</div>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {novas.length>0&&<div style={{background:"#0a1a0a",borderRadius:10,padding:12,marginBottom:12,border:"1px solid #166534"}}><div style={{fontSize:13,color:"#4ade80",fontWeight:700,marginBottom:4}}>✅ {novas.length} novas figurinhas</div><div style={{fontSize:12,color:"#666"}}>#{novas.join(", #")}</div></div>}
-                  <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                    {novas.length>0&&<button onClick={()=>confirmar("colada")} style={{background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:10,color:"#fff",padding:14,fontSize:14,fontWeight:700,cursor:"pointer"}}>✅ Confirmar {novas.length} figurinha{novas.length>1?"s":""}</button>}
-                    <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:"#1e1e35",border:"1px solid #3a3a60",borderRadius:10,color:"#aaa",padding:12,fontSize:13,cursor:"pointer"}}>🔄 Tentar novamente</button>
-                    <button onClick={onClose} style={{background:"transparent",border:"none",color:"#555",padding:10,fontSize:13,cursor:"pointer"}}>Cancelar</button>
-                  </div>
+        {fase==="captura"&&(<div>
+          {usarCamera&&(<div style={{marginBottom:16,borderRadius:14,overflow:"hidden",border:`2px solid ${FIFA.magenta}`}}>
+            <video ref={videoRef} autoPlay playsInline style={{width:"100%",display:"block",maxHeight:360,objectFit:"cover"}}/>
+            <button onClick={capturar} style={{width:"100%",background:GRAD,border:"none",color:"#fff",padding:14,fontSize:15,fontWeight:800,cursor:"pointer"}}>📸 Capturar</button>
+          </div>)}
+          {imgSrc&&!usarCamera&&(<div style={{marginBottom:16,borderRadius:14,overflow:"hidden",border:`2px solid ${FIFA.border}`}}><img src={imgSrc} style={{width:"100%",display:"block",maxHeight:400,objectFit:"contain",background:FIFA.bg}}/></div>)}
+          {!usarCamera&&(<div style={{display:"flex",flexDirection:"column",gap:10}}>
+            {!imgSrc&&(<div style={{background:FIFA.bgCard,border:`1px dashed ${FIFA.border}`,borderRadius:14,padding:22,textAlign:"center",marginBottom:4}}>
+              <div style={{fontSize:42,marginBottom:8}}>{modo==="pagina"?"📖":"🔄"}</div>
+              <div style={{color:FIFA.textDim,fontSize:13}}>{modo==="pagina"?"Abra o álbum e tire uma foto nítida da página":"Coloque o verso para cima e tire uma foto nítida"}</div>
+            </div>)}
+            <button onClick={abrirCamera} style={{background:GRAD,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:14,fontWeight:800,cursor:"pointer"}}>📷 Abrir câmera</button>
+            <button onClick={()=>fileRef.current?.click()} style={{background:FIFA.bgCard2,border:`1px solid ${FIFA.border}`,borderRadius:12,color:FIFA.text,padding:12,fontSize:13,fontWeight:700,cursor:"pointer"}}>🖼 Galeria</button>
+            <input ref={fileRef} type="file" accept="image/*" style={{display:"none"}} onChange={selArq}/>
+            {imgSrc&&(<button onClick={analisar} style={{background:`linear-gradient(135deg,${FIFA.purple},${FIFA.cyan})`,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:14,fontWeight:800,cursor:"pointer",marginTop:4}}>✨ Analisar com IA</button>)}
+            {erro&&<div style={{background:"#2A0A14",border:"1px solid #7f1d3d",borderRadius:10,padding:12,color:"#F87171",fontSize:13}}>{erro}</div>}
+          </div>)}
+        </div>)}
+        {fase==="analisando"&&(<div style={{textAlign:"center",padding:"60px 20px"}}>
+          {imgSrc&&<div style={{marginBottom:24,borderRadius:14,overflow:"hidden",opacity:0.5}}><img src={imgSrc} style={{width:"100%",maxHeight:200,objectFit:"contain"}}/></div>}
+          <div style={{fontSize:42,marginBottom:16}}>✨</div>
+          <div style={{color:FIFA.orange,fontWeight:800,fontSize:16,marginBottom:8}}>Analisando com IA...</div>
+          <div style={{color:FIFA.textDim,fontSize:13}}>{modo==="pagina"?"Lendo a página":"Lendo o verso"}</div>
+        </div>)}
+        {fase==="resultado"&&resultado&&(<div>
+          {imgSrc&&<div style={{marginBottom:14,borderRadius:14,overflow:"hidden",border:`2px solid ${FIFA.border}`}}><img src={imgSrc} style={{width:"100%",maxHeight:220,objectFit:"contain",background:FIFA.bg}}/></div>}
+          {resultado.tipo==="pagina"&&(()=>{
+            const d=resultado.dados,sel=SEL_BY_ID[d.selecao_id],figs=sel?gerarFigurinhasSel(sel):[];
+            const novas=(d.coladas||[]).filter(n=>!coladas.has(`${d.selecao_id}_${n}`));
+            return (<div>
+              <div style={{background:FIFA.bgCard,borderRadius:14,padding:14,marginBottom:12,border:`1px solid ${FIFA.border}`}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+                  <span style={{fontSize:32}}>{sel?.bandeira||"🏳"}</span>
+                  <div><div style={{fontWeight:800,fontSize:15,color:FIFA.text}}>{d.selecao_nome||"Desconhecida"}</div>
+                  <div style={{display:"flex",gap:6,marginTop:4}}><Badge bg={cc[d.confianca]} fg="#0A0A1A">Confiança: {d.confianca}</Badge><Badge bg={FIFA.purple}>{(d.coladas||[]).length} coladas</Badge></div></div>
                 </div>
-              );
-            })()}
-
-            {resultado.tipo==="verso"&&(()=>{
-              const d=resultado.dados;
-              const sel=SELECOES.find(s=>s.id===d.selecao_id);
-              const figs=sel?gerarFigurinhasSel(sel):[];
-              const fig=figs.find(f=>f.num===d.numero);
-              const key=sel?`${sel.id}_${d.numero}`:null;
-              const jaC=key?coladas.has(key):false;
-              return (
-                <div>
-                  <div style={{background:"#0d0d1f",borderRadius:12,padding:16,marginBottom:14,border:"1px solid #1e1e35"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
-                      <span style={{fontSize:40}}>{sel?.bandeira||"🏳"}</span>
-                      <div>
-                        <div style={{fontWeight:800,fontSize:17,color:"#e0e0e0"}}>{d.selecao_nome||"Desconhecida"}</div>
-                        <div style={{color:"#e8c84a",fontWeight:700,fontSize:14}}>#{d.numero} · {fig?.label||"—"}</div>
-                        <div style={{marginTop:6}}><Badge color={corConf[d.confianca]}>Confiança: {d.confianca}</Badge></div>
-                      </div>
-                    </div>
-                    {d.descricao&&<div style={{fontSize:12,color:"#666",fontStyle:"italic"}}>{d.descricao}</div>}
-                    {jaC&&<div style={{background:"#1a2e1a",borderRadius:8,padding:"8px 12px",marginTop:10,color:"#4ade80",fontSize:13,fontWeight:600}}>✅ Já está no seu álbum</div>}
-                  </div>
-                  {d.selecao_id!=="DESCONHECIDA"&&d.numero>0&&(
-                    <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                      {!jaC&&<button onClick={()=>confirmar("colada")} style={{background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:10,color:"#fff",padding:14,fontSize:14,fontWeight:700,cursor:"pointer"}}>✅ Tenho esta (registrar no álbum)</button>}
-                      <button onClick={()=>confirmar("repetida")} style={{background:"linear-gradient(135deg,#92400e,#78350f)",border:"none",borderRadius:10,color:"#fff",padding:14,fontSize:14,fontWeight:700,cursor:"pointer"}}>🔁 É repetida (registrar para troca)</button>
-                      <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:"#1e1e35",border:"1px solid #3a3a60",borderRadius:10,color:"#aaa",padding:12,fontSize:13,cursor:"pointer"}}>🔄 Não é isso — tentar novamente</button>
-                    </div>
-                  )}
-                  {(d.selecao_id==="DESCONHECIDA"||d.numero===0)&&(
-                    <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                      <div style={{background:"#2a1a0a",border:"1px solid #92400e",borderRadius:8,padding:12,color:"#f59e0b",fontSize:13}}>Não consegui identificar. Tente uma foto mais nítida.</div>
-                      <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:"#1e1e35",border:"1px solid #3a3a60",borderRadius:10,color:"#e0e0e0",padding:12,fontSize:13,cursor:"pointer"}}>🔄 Tentar novamente</button>
-                    </div>
-                  )}
+                {d.observacao&&<div style={{fontSize:12,color:FIFA.textDim,fontStyle:"italic"}}>{d.observacao}</div>}
+              </div>
+              <div style={{background:FIFA.bgCard,borderRadius:14,padding:14,marginBottom:14,border:`1px solid ${FIFA.border}`}}>
+                <div style={{fontSize:13,fontWeight:800,color:FIFA.text,marginBottom:10}}>Figurinhas identificadas:</div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:6}}>
+                  {figs.map(f=>{const isC=(d.coladas||[]).includes(f.num),ja=coladas.has(`${d.selecao_id}_${f.num}`);
+                    return <div key={f.num} style={{background:isC?(ja?"#1A2A1A":"#0F2A14"):FIFA.bg,border:`1.5px solid ${isC?(ja?"#37E27B66":FIFA.green):FIFA.border}`,borderRadius:8,padding:"6px 4px",textAlign:"center"}}>
+                      <div style={{fontSize:9,fontWeight:800,color:isC?FIFA.green:FIFA.textDim}}>{f.codigo}</div>
+                      {isC&&<div style={{fontSize:7,color:ja?"#37E27B66":FIFA.green,marginTop:2}}>{ja?"já tinha":"nova"}</div>}</div>;})}
                 </div>
-              );
-            })()}
-          </div>
-        )}
+              </div>
+              {novas.length>0&&<div style={{background:"#0A1A0F",borderRadius:12,padding:12,marginBottom:12,border:"1px solid #166534"}}><div style={{fontSize:13,color:FIFA.green,fontWeight:800}}>✅ {novas.length} novas figurinhas</div></div>}
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {novas.length>0&&<button onClick={()=>confirmar("colada")} style={{background:`linear-gradient(135deg,${FIFA.green},#15803d)`,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:14,fontWeight:800,cursor:"pointer"}}>✅ Confirmar {novas.length} figurinha{novas.length>1?"s":""}</button>}
+                <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:FIFA.bgCard2,border:`1px solid ${FIFA.border}`,borderRadius:12,color:FIFA.textDim,padding:12,fontSize:13,cursor:"pointer"}}>🔄 Tentar novamente</button>
+              </div>
+            </div>);
+          })()}
+          {resultado.tipo==="verso"&&(()=>{
+            const d=resultado.dados,sel=SEL_BY_ID[d.selecao_id],figs=sel?gerarFigurinhasSel(sel):[];
+            const fig=figs.find(f=>f.num===d.numero),key=sel?`${sel.id}_${d.numero}`:null,ja=key?coladas.has(key):false;
+            return (<div>
+              <div style={{background:FIFA.bgCard,borderRadius:14,padding:16,marginBottom:14,border:`1px solid ${FIFA.border}`}}>
+                <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
+                  <span style={{fontSize:44}}>{sel?.bandeira||"🏳"}</span>
+                  <div><div style={{fontWeight:800,fontSize:17,color:FIFA.text}}>{d.selecao_nome||"Desconhecida"}</div>
+                  <div style={{color:FIFA.orange,fontWeight:800,fontSize:14}}>{fig?.codigo||"?"} · {fig?.label||"—"}</div>
+                  <div style={{marginTop:6}}><Badge bg={cc[d.confianca]} fg="#0A0A1A">Confiança: {d.confianca}</Badge></div></div>
+                </div>
+                {d.descricao&&<div style={{fontSize:12,color:FIFA.textDim,fontStyle:"italic"}}>{d.descricao}</div>}
+                {ja&&<div style={{background:"#1A2E1A",borderRadius:8,padding:"8px 12px",marginTop:10,color:FIFA.green,fontSize:13,fontWeight:700}}>✅ Já está no seu álbum</div>}
+              </div>
+              {d.selecao_id!=="DESCONHECIDA"&&d.numero>0&&(<div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {!ja&&<button onClick={()=>confirmar("colada")} style={{background:`linear-gradient(135deg,${FIFA.green},#15803d)`,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:14,fontWeight:800,cursor:"pointer"}}>✅ Tenho esta (registrar)</button>}
+                <button onClick={()=>confirmar("repetida")} style={{background:`linear-gradient(135deg,${FIFA.orange},#92400e)`,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:14,fontWeight:800,cursor:"pointer"}}>🔁 É repetida (trocar)</button>
+                <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:FIFA.bgCard2,border:`1px solid ${FIFA.border}`,borderRadius:12,color:FIFA.textDim,padding:12,fontSize:13,cursor:"pointer"}}>🔄 Não é isso</button>
+              </div>)}
+              {(d.selecao_id==="DESCONHECIDA"||d.numero===0)&&(<div style={{display:"flex",flexDirection:"column",gap:8}}>
+                <div style={{background:"#2A1A0A",border:"1px solid #92400e",borderRadius:10,padding:12,color:FIFA.amber,fontSize:13}}>Não consegui identificar. Tente foto mais nítida.</div>
+                <button onClick={()=>{setFase("captura");setResultado(null);setImgSrc(null);setImgFile(null);}} style={{background:FIFA.bgCard2,border:`1px solid ${FIFA.border}`,borderRadius:12,color:FIFA.text,padding:12,fontSize:13,cursor:"pointer"}}>🔄 Tentar novamente</button>
+              </div>)}
+            </div>);
+          })()}
+        </div>)}
       </div>
     </div>
   );
 }
 
 // ─── FIGURINHA CARD ───────────────────────────────────────────────────────────
-
 function FigurinhaCard({fig,coladaKey,coladas,repetidas,toggle,setRep}) {
-  const colada=coladas.has(coladaKey);
-  const rep=repetidas[coladaKey]||0;
+  const colada=coladas.has(coladaKey),rep=repetidas[coladaKey]||0;
   return (
-    <div onClick={()=>toggle(coladaKey)} style={{background:colada?"#0e2a0e":"#0f0f1a",border:`1.5px solid ${colada?"#4ade80":fig.especial?"#e8c84a44":"#1e1e35"}`,borderRadius:10,padding:"8px 10px",cursor:"pointer",transition:"all 0.15s",position:"relative",opacity:colada?1:0.6,userSelect:"none"}}>
-      {fig.especial&&<span style={{position:"absolute",top:4,right:6,fontSize:9,color:"#e8c84a"}}>★</span>}
-      <div style={{fontSize:10,color:"#555",marginBottom:1}}>#{fig.num}</div>
-      <div style={{fontSize:11,color:colada?"#4ade80":"#999",fontWeight:600,lineHeight:1.2}}>{colada?"✓ ":""}{fig.label}</div>
-      {colada&&(
-        <div onClick={e=>e.stopPropagation()} style={{marginTop:6,display:"flex",alignItems:"center",gap:4}}>
-          <span style={{fontSize:10,color:"#666"}}>Rep:</span>
-          <button onClick={()=>setRep(coladaKey,rep-1)} style={btnSm}>−</button>
-          <span style={{fontSize:11,color:rep>0?"#f59e0b":"#444",fontWeight:700,minWidth:14,textAlign:"center"}}>{rep}</span>
-          <button onClick={()=>setRep(coladaKey,rep+1)} style={btnSm}>+</button>
-        </div>
-      )}
+    <div onClick={()=>toggle(coladaKey)} style={{background:colada?"#0E2A18":FIFA.bg,border:`1.5px solid ${colada?FIFA.green:fig.especial?FIFA.amber+"66":FIFA.border}`,borderRadius:10,padding:"8px 10px",cursor:"pointer",transition:"all 0.15s",position:"relative",opacity:colada?1:0.72,userSelect:"none"}}>
+      {fig.especial&&<span style={{position:"absolute",top:4,right:6,fontSize:9,color:FIFA.amber}}>★</span>}
+      <div style={{fontSize:10,color:colada?FIFA.green:FIFA.textDim,marginBottom:1,fontWeight:700}}>{fig.codigo}</div>
+      <div style={{fontSize:11,color:colada?"#B0FFC8":FIFA.text,fontWeight:600,lineHeight:1.2}}>{colada?"✓ ":""}{fig.label}</div>
+      {colada&&(<div onClick={e=>e.stopPropagation()} style={{marginTop:6,display:"flex",alignItems:"center",gap:4}}>
+        <span style={{fontSize:10,color:FIFA.textDim}}>Rep:</span>
+        <button onClick={()=>setRep(coladaKey,rep-1)} style={btnSm}>−</button>
+        <span style={{fontSize:11,color:rep>0?FIFA.amber:FIFA.textDim,fontWeight:800,minWidth:14,textAlign:"center"}}>{rep}</span>
+        <button onClick={()=>setRep(coladaKey,rep+1)} style={btnSm}>+</button>
+      </div>)}
     </div>
   );
 }
-const btnSm={background:"#2a2a40",border:"none",color:"#aaa",borderRadius:4,width:18,height:18,fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",padding:0};
+const btnSm={background:FIFA.border,border:"none",color:FIFA.text,borderRadius:5,width:20,height:20,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",padding:0,fontWeight:700};
 
 // ─── SELEÇÃO CARD ─────────────────────────────────────────────────────────────
-
 function SelecaoCard({sel,coladas,repetidas,toggle,setRep,expandida,onClick}) {
-  const figs=gerarFigurinhasSel(sel);
-  const keys=figs.map(f=>`${sel.id}_${f.num}`);
-  const cnt=keys.filter(k=>coladas.has(k)).length;
-  const pct=Math.round((cnt/20)*100);
+  const figs=gerarFigurinhasSel(sel),keys=figs.map(f=>`${sel.id}_${f.num}`);
+  const cnt=keys.filter(k=>coladas.has(k)).length,pct=Math.round(cnt/20*100);
   const rep=keys.reduce((a,k)=>a+(repetidas[k]||0),0);
   return (
-    <div style={{background:"#0d0d1f",borderRadius:14,overflow:"hidden",border:"1px solid #1a1a30"}}>
-      <div onClick={onClick} style={{padding:"13px 16px",cursor:"pointer",background:expandida?"#111128":"#0d0d1f",display:"flex",alignItems:"center",gap:12}}>
-        <span style={{fontSize:26}}>{sel.bandeira}</span>
+    <div style={{background:FIFA.bgCard,borderRadius:16,overflow:"hidden",border:`1px solid ${expandida?FIFA.magenta+"55":FIFA.border}`}}>
+      <div onClick={onClick} style={{padding:"14px 16px",cursor:"pointer",background:expandida?FIFA.bgCard2:FIFA.bgCard,display:"flex",alignItems:"center",gap:13}}>
+        <span style={{fontSize:32,lineHeight:1}}>{sel.bandeira}</span>
         <div style={{flex:1}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:5}}>
-            <span style={{color:"#f0f0f0",fontWeight:700,fontSize:13}}>{sel.nome}</span>
-            <Badge color="#1e1e35">G{sel.grupo}</Badge>
-            {rep>0&&<Badge color="#78350f">{rep} rep</Badge>}
-            {cnt===20&&<Badge color="#14532d">✓ Completa</Badge>}
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
+            <span style={{color:FIFA.text,fontWeight:800,fontSize:14}}>{sel.nome}</span>
+            <Badge bg={FIFA.border}>Grupo {sel.grupo}</Badge>
+            {rep>0&&<Badge bg="#78350F" fg={FIFA.amber}>{rep} rep</Badge>}
+            {cnt===20&&<Badge bg="#14532D" fg={FIFA.green}>✓ Completa</Badge>}
           </div>
-          <ProgressBar pct={pct} color={sel.cor}/>
-          <div style={{fontSize:11,color:"#555",marginTop:3}}>{cnt}/20 · {pct}%</div>
+          <ProgressBar pct={pct} grad={`linear-gradient(90deg,${sel.cor},${FIFA.orange})`}/>
+          <div style={{fontSize:11,color:FIFA.textDim,marginTop:4,fontWeight:600}}>{cnt}/20 · {pct}%</div>
         </div>
-        <span style={{color:"#333",fontSize:14}}>{expandida?"▲":"▼"}</span>
+        <span style={{color:FIFA.textDim,fontSize:15}}>{expandida?"▲":"▼"}</span>
       </div>
-      {expandida&&(
-        <div style={{padding:12,borderTop:"1px solid #1a1a30",display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(115px,1fr))",gap:7}}>
-          {figs.map(f=>{
-            const k=`${sel.id}_${f.num}`;
-            return <FigurinhaCard key={k} fig={f} coladaKey={k} coladas={coladas} repetidas={repetidas} toggle={toggle} setRep={setRep}/>;
-          })}
-        </div>
-      )}
+      {expandida&&(<div style={{padding:12,borderTop:`1px solid ${FIFA.border}`,display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(120px,1fr))",gap:7}}>
+        {figs.map(f=>{const k=`${sel.id}_${f.num}`;return <FigurinhaCard key={k} fig={f} coladaKey={k} coladas={coladas} repetidas={repetidas} toggle={toggle} setRep={setRep}/>;})}
+      </div>)}
     </div>
   );
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
-
 function App() {
-  const {coladas,repetidas,toggle,setRep,marcarLote,addRepetida} = useStorage();
-  const [expandida,setExpandida] = useState(null);
-  const [busca,setBusca] = useState("");
-  const [filtroGrupo,setFiltroGrupo] = useState("todos");
-  const [filtroStatus,setFiltroStatus] = useState("todos");
-  const [aba,setAba] = useState("album");
-  const [cameraModal,setCameraModal] = useState(null);
-  const [toast,setToast] = useState(null);
-  const [gerandoPDF,setGerandoPDF] = useState(false);
+  const {coladas,repetidas,toggle,setRep,marcarLote,addRepetida}=useStorage();
+  const [expandida,setExpandida]=useState(null);
+  const [busca,setBusca]=useState("");
+  const [filtroGrupo,setFiltroGrupo]=useState("todos");
+  const [filtroStatus,setFiltroStatus]=useState("todos");
+  const [aba,setAba]=useState("album");
+  const [cameraModal,setCameraModal]=useState(null);
+  const [toast,setToast]=useState(null);
+  const [gerandoPDF,setGerandoPDF]=useState(false);
+  function showToast(msg,tipo="ok"){setToast({msg,tipo});setTimeout(()=>setToast(null),3500);}
 
-  function showToast(msg,tipo="ok") {
-    setToast({msg,tipo}); setTimeout(()=>setToast(null),3500);
-  }
+  const especiaisKeys=useMemo(()=>{const k=[];ESPECIAIS.forEach(e=>{for(let i=1;i<=e.count;i++)k.push(`${e.id}_${i}`);});return k;},[]);
+  const especiaisColadas=especiaisKeys.filter(k=>coladas.has(k)).length;
+  const totalColadas=useMemo(()=>{let c=0;SELECOES.forEach(s=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))c++;});return c+especiaisColadas;},[coladas,especiaisColadas]);
+  const totalRepetidas=useMemo(()=>Object.values(repetidas).reduce((a,v)=>a+v,0),[repetidas]);
+  const pctGeral=Math.round(totalColadas/TOTAL_ALBUM*100);
 
-  const especiaisKeys = useMemo(()=>{
-    const k=[]; ESPECIAIS.forEach(e=>{for(let i=1;i<=e.count;i++)k.push(`${e.id}_${i}`);}); return k;
-  },[]);
-  const especiaisColadas = especiaisKeys.filter(k=>coladas.has(k)).length;
-
-  const totalColadas = useMemo(()=>{
-    let c=0; SELECOES.forEach(s=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))c++;}); return c+especiaisColadas;
-  },[coladas,especiaisColadas]);
-
-  const totalRepetidas = useMemo(()=>Object.values(repetidas).reduce((a,v)=>a+v,0),[repetidas]);
-  const pctGeral = Math.round((totalColadas/TOTAL_ALBUM)*100);
-
-  const selecoesFiltradas = useMemo(()=>SELECOES.filter(s=>{
-    if(filtroGrupo!=="todos"&&s.grupo!==filtroGrupo) return false;
-    if(busca&&!s.nome.toLowerCase().includes(busca.toLowerCase())) return false;
+  const selecoesFiltradas=useMemo(()=>SELECOES.filter(s=>{
+    if(filtroGrupo!=="todos"&&s.grupo!==filtroGrupo)return false;
+    if(busca&&!s.nome.toLowerCase().includes(busca.toLowerCase()))return false;
     const c=[...Array(20)].filter((_,i)=>coladas.has(`${s.id}_${i+1}`)).length;
-    if(filtroStatus==="faltando"&&c===20) return false;
-    if(filtroStatus==="completas"&&c<20) return false;
+    if(filtroStatus==="faltando"&&c===20)return false;
+    if(filtroStatus==="completas"&&c<20)return false;
     return true;
   }),[busca,filtroGrupo,filtroStatus,coladas]);
 
-  const comRepetidas = useMemo(()=>{
-    const r=[];
-    SELECOES.forEach(s=>{
-      const rps=[];
-      for(let i=1;i<=20;i++){const k=`${s.id}_${i}`;if(repetidas[k]){const f=gerarFigurinhasSel(s)[i-1];rps.push({...f,key:k,rep:repetidas[k]});}}
-      if(rps.length) r.push({sel:s,reps:rps});
-    });
-    return r;
-  },[repetidas]);
+  const comRepetidas=useMemo(()=>{const r=[];SELECOES.forEach(s=>{const rs=[];for(let i=1;i<=20;i++){const k=`${s.id}_${i}`;if(repetidas[k]){const f=gerarFigurinhasSel(s)[i-1];rs.push({...f,key:k,rep:repetidas[k]});}}if(rs.length)r.push({sel:s,reps:rs});});return r;},[repetidas]);
 
-  function copiarTrocas() {
-    const l=["🔄 MINHAS REPETIDAS - Copa 2026 Panini\n"];
-    comRepetidas.forEach(({sel,reps})=>{
-      l.push(`${sel.bandeira} ${sel.nome}:`);
-      reps.forEach(r=>l.push(`  #${r.num} ${r.label} (${r.rep}x)`));
-    });
-    navigator.clipboard.writeText(l.join("\n")).catch(()=>{});
-    showToast("Lista copiada!");
-  }
+  function copiarTrocas(){const l=["🔄 MINHAS REPETIDAS - Copa 2026 Panini\n"];comRepetidas.forEach(({sel,reps})=>{l.push(`${sel.bandeira} ${sel.nome}:`);reps.forEach(r=>l.push(`  ${r.codigo} ${r.label} (${r.rep}x)`));});navigator.clipboard.writeText(l.join("\n")).catch(()=>{});showToast("Lista copiada!");}
 
-  async function handleGerarPDF() {
-    setGerandoPDF(true);
-    try {
-      const doc = await gerarPDF(coladas, repetidas);
-      const dt = new Date().toISOString().slice(0,10);
-      doc.save(`figurinhas-copa2026-${dt}.pdf`);
-      showToast("📄 PDF gerado com sucesso!");
-    } catch(e) {
-      showToast("Erro ao gerar PDF. Tente novamente.", "err");
-    } finally {
-      setGerandoPDF(false);
-    }
-  }
+  async function handleGerarPDF(){setGerandoPDF(true);try{const doc=await gerarPDF(coladas,repetidas);doc.save(`figurinhas-copa2026-${new Date().toISOString().slice(0,10)}.pdf`);showToast("📄 PDF gerado!");}catch(e){showToast("Erro ao gerar PDF.","err");}finally{setGerandoPDF(false);}}
 
-  function handleConfirm(resultado,acao) {
-    const d=resultado.dados;
-    const sel=SELECOES.find(s=>s.id===d.selecao_id);
-    if(!sel) return;
-    if(resultado.tipo==="pagina"&&acao==="colada") {
-      const novas=(d.coladas||[]).filter(n=>!coladas.has(`${sel.id}_${n}`));
-      marcarLote(novas.map(n=>`${sel.id}_${n}`),true);
-      showToast(`✅ ${novas.length} figurinhas registradas para ${sel.nome}!`);
-    }
-    if(resultado.tipo==="verso") {
-      const key=`${sel.id}_${d.numero}`;
-      if(acao==="colada"){marcarLote([key],true);showToast(`✅ ${sel.nome} #${d.numero} registrada!`);}
-      else if(acao==="repetida"){marcarLote([key],true);addRepetida(key);showToast(`🔁 ${sel.nome} #${d.numero} adicionada às trocas!`,"rep");}
-    }
+  function handleConfirm(resultado,acao){
+    const d=resultado.dados,sel=SEL_BY_ID[d.selecao_id];if(!sel)return;
+    if(resultado.tipo==="pagina"&&acao==="colada"){const novas=(d.coladas||[]).filter(n=>!coladas.has(`${sel.id}_${n}`));marcarLote(novas.map(n=>`${sel.id}_${n}`),true);showToast(`✅ ${novas.length} figurinhas de ${sel.nome}!`);}
+    if(resultado.tipo==="verso"){const k=`${sel.id}_${d.numero}`;if(acao==="colada"){marcarLote([k],true);showToast(`✅ ${sel.id}${d.numero} registrada!`);}else if(acao==="repetida"){marcarLote([k],true);addRepetida(k);showToast(`🔁 ${sel.id}${d.numero} nas trocas!`,"rep");}}
   }
 
   const grupos=["todos","A","B","C","D","E","F","G","H","I","J","K","L"];
 
   return (
-    <div style={{background:"#080814",minHeight:"100vh",fontFamily:"'Inter','Segoe UI',sans-serif",color:"#e0e0e0"}}>
+    <div style={{background:FIFA.bg,minHeight:"100vh",fontFamily:"'Inter','Segoe UI',system-ui,sans-serif",color:FIFA.text}}>
+      {toast&&<div style={{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:toast.tipo==="rep"?"#92400E":toast.tipo==="err"?"#7f1d1d":"#14532D",color:"#fff",padding:"12px 22px",borderRadius:14,fontSize:13,fontWeight:700,zIndex:2000,boxShadow:"0 6px 28px rgba(0,0,0,0.6)",whiteSpace:"nowrap"}}>{toast.msg}</div>}
+      {cameraModal&&<CameraModal modo={cameraModal} coladas={coladas} onClose={()=>setCameraModal(null)} onConfirm={handleConfirm}/>}
 
-      {toast&&(
-        <div style={{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",
-          background:toast.tipo==="rep"?"#92400e":toast.tipo==="err"?"#7f1d1d":"#14532d",
-          color:"#fff",padding:"12px 20px",borderRadius:12,fontSize:13,fontWeight:600,
-          zIndex:2000,boxShadow:"0 4px 24px #0008",whiteSpace:"nowrap"}}>
-          {toast.msg}
-        </div>
-      )}
-
-      {cameraModal&&(
-        <CameraModal modo={cameraModal} coladas={coladas} onClose={()=>setCameraModal(null)} onConfirm={handleConfirm}/>
-      )}
-
-      {/* HEADER */}
-      <div style={{background:"linear-gradient(135deg,#0a0a1f,#12122a,#0a0a1f)",borderBottom:"1px solid #1e1e35",padding:"18px 16px 0"}}>
+      {/* HEADER com gradiente FIFA */}
+      <div style={{background:`linear-gradient(160deg,#13132B 0%,#1B1B3A 60%,#0A0A1A 100%)`,borderBottom:`1px solid ${FIFA.border}`,padding:"18px 16px 0",position:"relative",overflow:"hidden"}}>
+        {/* faixa gradiente decorativa topo */}
+        <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:GRAD}}/>
         <div style={{maxWidth:900,margin:"0 auto"}}>
-          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:14}}>
-            <div style={{background:"linear-gradient(135deg,#e8c84a,#f5a623)",borderRadius:10,padding:"8px 12px",fontSize:20}}>🏆</div>
+          <div style={{display:"flex",alignItems:"center",gap:13,marginBottom:16}}>
+            <div style={{background:GRAD,borderRadius:14,padding:"10px 13px",fontSize:22,boxShadow:`0 4px 16px ${FIFA.magenta}55`}}>🏆</div>
             <div>
-              <div style={{fontSize:18,fontWeight:800}}>
-                <span style={{color:"#e8c84a"}}>Copa 2026</span>
-                <span style={{color:"#444",fontSize:12,fontWeight:400,marginLeft:8}}>Panini · 980 figurinhas</span>
-              </div>
-              <div style={{fontSize:11,color:"#444"}}>48 seleções · 12 grupos · EUA, Canadá e México</div>
+              <div style={{fontSize:19,fontWeight:900,letterSpacing:-0.5,background:GRAD_TEXT,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>FIFA WORLD CUP 26</div>
+              <div style={{fontSize:11,color:FIFA.textDim,fontWeight:600,marginTop:1}}>Álbum Panini · 980 figurinhas · 🇨🇦 🇲🇽 🇺🇸</div>
             </div>
           </div>
 
           {/* Progresso */}
-          <div style={{background:"#0f0f1f",borderRadius:12,padding:"12px 14px",marginBottom:12}}>
-            <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
-              <span style={{fontSize:12,color:"#888"}}>Progresso geral</span>
-              <span style={{fontSize:20,fontWeight:800,color:"#e8c84a"}}>{pctGeral}%</span>
+          <div style={{background:FIFA.bg,borderRadius:14,padding:"14px 16px",marginBottom:12,border:`1px solid ${FIFA.border}`}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}>
+              <span style={{fontSize:12,color:FIFA.textDim,fontWeight:600}}>Progresso geral</span>
+              <span style={{fontSize:24,fontWeight:900,background:GRAD_TEXT,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{pctGeral}%</span>
             </div>
-            <ProgressBar pct={pctGeral} color="#e8c84a"/>
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:8,fontSize:11}}>
-              <span><span style={{color:"#4ade80",fontWeight:700}}>{totalColadas}</span> <span style={{color:"#444"}}>coladas</span></span>
-              <span><span style={{color:"#f59e0b",fontWeight:700}}>{TOTAL_ALBUM-totalColadas}</span> <span style={{color:"#444"}}>faltando</span></span>
-              <span><span style={{color:"#f97316",fontWeight:700}}>{totalRepetidas}</span> <span style={{color:"#444"}}>repetidas</span></span>
+            <ProgressBar pct={pctGeral}/>
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:9,fontSize:11}}>
+              <span><b style={{color:FIFA.green,fontSize:13}}>{totalColadas}</b> <span style={{color:FIFA.textDim}}>coladas</span></span>
+              <span><b style={{color:FIFA.amber,fontSize:13}}>{TOTAL_ALBUM-totalColadas}</b> <span style={{color:FIFA.textDim}}>faltando</span></span>
+              <span><b style={{color:FIFA.orange,fontSize:13}}>{totalRepetidas}</b> <span style={{color:FIFA.textDim}}>repetidas</span></span>
             </div>
           </div>
 
-          {/* Botões de ação */}
-          <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap"}}>
-            <button onClick={()=>setCameraModal("pagina")} style={{flex:1,minWidth:100,background:"linear-gradient(135deg,#1e3a5f,#1e4a7f)",border:"1px solid #2a5a9f",borderRadius:10,color:"#7dd3fc",padding:"10px 8px",fontSize:12,fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
-              <span style={{fontSize:15}}>📖</span> Escanear Página
-            </button>
-            <button onClick={()=>setCameraModal("verso")} style={{flex:1,minWidth:100,background:"linear-gradient(135deg,#3a1e5f,#5a1e7f)",border:"1px solid #7a2aaf",borderRadius:10,color:"#c4b5fd",padding:"10px 8px",fontSize:12,fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}}>
-              <span style={{fontSize:15}}>🔍</span> Ler Figurinha
-            </button>
-            <button onClick={handleGerarPDF} disabled={gerandoPDF} style={{flex:1,minWidth:100,background:gerandoPDF?"#1a1a2a":"linear-gradient(135deg,#1a2a1a,#14532d)",border:`1px solid ${gerandoPDF?"#333":"#166534"}`,borderRadius:10,color:gerandoPDF?"#555":"#4ade80",padding:"10px 8px",fontSize:12,fontWeight:700,cursor:gerandoPDF?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,transition:"all 0.2s"}}>
-              <span style={{fontSize:15}}>{gerandoPDF?"⏳":"📄"}</span>
-              {gerandoPDF?"Gerando...":"Exportar PDF"}
-            </button>
+          {/* Botões */}
+          <div style={{display:"flex",gap:8,marginBottom:13,flexWrap:"wrap"}}>
+            <button onClick={()=>setCameraModal("pagina")} style={{flex:1,minWidth:100,background:`linear-gradient(135deg,${FIFA.purple},${FIFA.cyan})`,border:"none",borderRadius:12,color:"#fff",padding:"11px 8px",fontSize:12,fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}}><span style={{fontSize:15}}>📖</span> Escanear Página</button>
+            <button onClick={()=>setCameraModal("verso")} style={{flex:1,minWidth:100,background:`linear-gradient(135deg,${FIFA.magenta},${FIFA.purple})`,border:"none",borderRadius:12,color:"#fff",padding:"11px 8px",fontSize:12,fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}}><span style={{fontSize:15}}>🔍</span> Ler Figurinha</button>
+            <button onClick={handleGerarPDF} disabled={gerandoPDF} style={{flex:1,minWidth:100,background:gerandoPDF?FIFA.bgCard2:`linear-gradient(135deg,${FIFA.orange},${FIFA.magenta})`,border:"none",borderRadius:12,color:"#fff",padding:"11px 8px",fontSize:12,fontWeight:800,cursor:gerandoPDF?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5,opacity:gerandoPDF?0.6:1}}><span style={{fontSize:15}}>{gerandoPDF?"⏳":"📄"}</span> {gerandoPDF?"Gerando...":"Exportar PDF"}</button>
           </div>
 
           {/* Abas */}
           <div style={{display:"flex",gap:2}}>
-            {[{key:"album",label:"🗂 Álbum"},{key:"resumo",label:"📊 Resumo"},{key:"trocas",label:"🔄 Trocas"}].map(a=>(
-              <button key={a.key} onClick={()=>setAba(a.key)} style={{background:aba===a.key?"#1e1e35":"transparent",border:"none",borderBottom:aba===a.key?"2px solid #e8c84a":"2px solid transparent",color:aba===a.key?"#e8c84a":"#555",padding:"9px 14px",cursor:"pointer",fontSize:12,fontWeight:600,borderRadius:"8px 8px 0 0",transition:"all 0.15s"}}>{a.label}</button>
+            {[{k:"album",l:"🗂 Álbum"},{k:"resumo",l:"📊 Resumo"},{k:"trocas",l:"🔄 Trocas"}].map(a=>(
+              <button key={a.k} onClick={()=>setAba(a.k)} style={{background:aba===a.k?FIFA.bgCard2:"transparent",border:"none",borderBottom:aba===a.k?`3px solid ${FIFA.orange}`:"3px solid transparent",color:aba===a.k?FIFA.text:FIFA.textDim,padding:"10px 15px",cursor:"pointer",fontSize:12,fontWeight:700,borderRadius:"8px 8px 0 0",transition:"all 0.15s"}}>{a.l}</button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* CONTENT */}
-      <div style={{maxWidth:900,margin:"0 auto",padding:"16px"}}>
+      <div style={{maxWidth:900,margin:"0 auto",padding:16}}>
+        {aba==="album"&&(<>
+          <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:14}}>
+            <input placeholder="🔍 Buscar seleção..." value={busca} onChange={e=>setBusca(e.target.value)} style={{flex:1,minWidth:140,background:FIFA.bgCard,border:`1px solid ${FIFA.border}`,borderRadius:10,padding:"9px 13px",color:FIFA.text,fontSize:13,outline:"none"}}/>
+            <select value={filtroGrupo} onChange={e=>setFiltroGrupo(e.target.value)} style={{background:FIFA.bgCard,border:`1px solid ${FIFA.border}`,borderRadius:10,color:FIFA.text,padding:"9px 11px",fontSize:12,cursor:"pointer"}}>{grupos.map(g=><option key={g} value={g}>{g==="todos"?"Todos grupos":`Grupo ${g}`}</option>)}</select>
+            <select value={filtroStatus} onChange={e=>setFiltroStatus(e.target.value)} style={{background:FIFA.bgCard,border:`1px solid ${FIFA.border}`,borderRadius:10,color:FIFA.text,padding:"9px 11px",fontSize:12,cursor:"pointer"}}><option value="todos">Todas</option><option value="faltando">Com falta</option><option value="completas">Completas</option></select>
+          </div>
 
-        {/* ABA ÁLBUM */}
-        {aba==="album"&&(
-          <>
-            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:14}}>
-              <input placeholder="🔍 Buscar seleção..." value={busca} onChange={e=>setBusca(e.target.value)} style={{flex:1,minWidth:140,background:"#0f0f1f",border:"1px solid #2a2a40",borderRadius:8,padding:"8px 12px",color:"#e0e0e0",fontSize:13,outline:"none"}}/>
-              <select value={filtroGrupo} onChange={e=>setFiltroGrupo(e.target.value)} style={{background:"#0f0f1f",border:"1px solid #2a2a40",borderRadius:8,color:"#e0e0e0",padding:"8px 10px",fontSize:12,cursor:"pointer"}}>
-                {grupos.map(g=><option key={g} value={g}>{g==="todos"?"Todos grupos":`Grupo ${g}`}</option>)}
-              </select>
-              <select value={filtroStatus} onChange={e=>setFiltroStatus(e.target.value)} style={{background:"#0f0f1f",border:"1px solid #2a2a40",borderRadius:8,color:"#e0e0e0",padding:"8px 10px",fontSize:12,cursor:"pointer"}}>
-                <option value="todos">Todas</option>
-                <option value="faltando">Com falta</option>
-                <option value="completas">Completas</option>
-              </select>
+          {/* Especiais */}
+          <div style={{background:FIFA.bgCard,borderRadius:14,padding:14,marginBottom:14,border:`1px solid ${FIFA.amber}33`}}>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
+              <span style={{color:FIFA.amber,fontWeight:800,fontSize:13}}>⭐ Especiais</span>
+              <span style={{fontSize:11,color:FIFA.textDim}}>{especiaisColadas}/{especiaisKeys.length}</span>
             </div>
-
-            {/* Especiais */}
-            <div style={{background:"#0d0d1f",borderRadius:12,padding:14,marginBottom:14,border:"1px solid #2a1a00"}}>
-              <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
-                <span style={{color:"#e8c84a",fontWeight:700,fontSize:13}}>⭐ Especiais</span>
-                <span style={{fontSize:11,color:"#666"}}>{especiaisColadas}/{especiaisKeys.length}</span>
-              </div>
-              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                {ESPECIAIS.map(e=>[...Array(e.count)].map((_,i)=>{
-                  const k=`${e.id}_${i+1}`;const ok=coladas.has(k);
-                  return(<button key={k} onClick={()=>toggle(k)} style={{background:ok?"#0e2a0e":"#0f0f1f",border:`1.5px solid ${ok?"#4ade80":"#e8c84a44"}`,borderRadius:8,padding:"5px 9px",cursor:"pointer",color:ok?"#4ade80":"#e8c84a",fontSize:10,fontWeight:600,transition:"all 0.15s"}}>{ok?"✓ ":""}{e.count===1?e.label:`${e.label.replace(/ .*/,"")} ${i+1}`}</button>);
-                }))}
-              </div>
+            <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+              {ESPECIAIS.map(e=>[...Array(e.count)].map((_,i)=>{const k=`${e.id}_${i+1}`,ok=coladas.has(k);
+                return <button key={k} onClick={()=>toggle(k)} style={{background:ok?"#0E2A18":FIFA.bg,border:`1.5px solid ${ok?FIFA.green:FIFA.amber+"44"}`,borderRadius:8,padding:"5px 9px",cursor:"pointer",color:ok?FIFA.green:FIFA.amber,fontSize:10,fontWeight:700,transition:"all 0.15s"}}>{ok?"✓ ":""}{e.count===1?e.label:`${e.label} ${i+1}`}</button>;}))}
             </div>
+          </div>
 
-            <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              {selecoesFiltradas.length===0&&<div style={{textAlign:"center",color:"#333",padding:40,fontSize:13}}>Nenhuma seleção encontrada</div>}
-              {selecoesFiltradas.map(sel=>(
-                <SelecaoCard key={sel.id} sel={sel} coladas={coladas} repetidas={repetidas} toggle={toggle} setRep={setRep} expandida={expandida===sel.id} onClick={()=>setExpandida(expandida===sel.id?null:sel.id)}/>
-              ))}
-            </div>
-          </>
-        )}
+          <div style={{display:"flex",flexDirection:"column",gap:9}}>
+            {selecoesFiltradas.length===0&&<div style={{textAlign:"center",color:FIFA.textDim,padding:40,fontSize:13}}>Nenhuma seleção encontrada</div>}
+            {selecoesFiltradas.map(sel=><SelecaoCard key={sel.id} sel={sel} coladas={coladas} repetidas={repetidas} toggle={toggle} setRep={setRep} expandida={expandida===sel.id} onClick={()=>setExpandida(expandida===sel.id?null:sel.id)}/>)}
+          </div>
+        </>)}
 
-        {/* ABA RESUMO */}
-        {aba==="resumo"&&(
-          <div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginBottom:16}}>
-              {[
-                {label:"Coladas",val:totalColadas,color:"#4ade80",icon:"✅"},
-                {label:"Faltando",val:TOTAL_ALBUM-totalColadas,color:"#f59e0b",icon:"🔲"},
-                {label:"Repetidas",val:totalRepetidas,color:"#f97316",icon:"🔁"},
-                {label:"Custo est. faltando",val:`R$${Math.ceil((TOTAL_ALBUM-totalColadas)/7)*7}`,color:"#a78bfa",icon:"💰"},
-              ].map((s,i)=>(
-                <div key={i} style={{background:"#0d0d1f",borderRadius:12,padding:14,border:"1px solid #1e1e35",textAlign:"center"}}>
-                  <div style={{fontSize:22,marginBottom:4}}>{s.icon}</div>
-                  <div style={{fontSize:20,fontWeight:800,color:s.color}}>{s.val}</div>
-                  <div style={{fontSize:10,color:"#444",marginTop:3}}>{s.label}</div>
+        {aba==="resumo"&&(<div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginBottom:16}}>
+            {[["Coladas",totalColadas,FIFA.green,"✅"],["Faltando",TOTAL_ALBUM-totalColadas,FIFA.amber,"🔲"],["Repetidas",totalRepetidas,FIFA.orange,"🔁"],["Custo est. faltando",`R$${Math.ceil((TOTAL_ALBUM-totalColadas)/7)*7}`,FIFA.cyan,"💰"]].map((s,i)=>(
+              <div key={i} style={{background:FIFA.bgCard,borderRadius:14,padding:15,border:`1px solid ${FIFA.border}`,textAlign:"center"}}>
+                <div style={{fontSize:22,marginBottom:5}}>{s[3]}</div>
+                <div style={{fontSize:21,fontWeight:900,color:s[2]}}>{s[1]}</div>
+                <div style={{fontSize:10,color:FIFA.textDim,marginTop:3,fontWeight:600}}>{s[0]}</div>
+              </div>))}
+          </div>
+          <button onClick={handleGerarPDF} disabled={gerandoPDF} style={{width:"100%",background:gerandoPDF?FIFA.bgCard2:`linear-gradient(135deg,${FIFA.orange},${FIFA.magenta})`,border:"none",borderRadius:12,color:"#fff",padding:14,fontSize:13,fontWeight:800,cursor:gerandoPDF?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:14,opacity:gerandoPDF?0.6:1}}><span style={{fontSize:18}}>{gerandoPDF?"⏳":"📄"}</span> {gerandoPDF?"Gerando PDF A4...":"Baixar PDF A4 — Minhas Figurinhas"}</button>
+          <div style={{background:FIFA.bgCard,borderRadius:14,padding:15,border:`1px solid ${FIFA.border}`}}>
+            <div style={{fontSize:13,fontWeight:800,color:FIFA.text,marginBottom:13}}>Progresso por Grupo</div>
+            {["A","B","C","D","E","F","G","H","I","J","K","L"].map(g=>{
+              const ss=SELECOES.filter(s=>s.grupo===g),tot=ss.length*20;
+              const c=ss.reduce((a,s)=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))a++;return a;},0);
+              const p=Math.round(c/tot*100);
+              return <div key={g} style={{marginBottom:11}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <span style={{fontSize:11,color:FIFA.textDim,fontWeight:600}}>Grupo {g} · {ss.map(s=>s.bandeira).join(" ")}</span>
+                  <span style={{fontSize:11,color:FIFA.orange,fontWeight:700}}>{c}/{tot}</span>
                 </div>
-              ))}
-            </div>
-
-            {/* Botão PDF no resumo também */}
-            <button onClick={handleGerarPDF} disabled={gerandoPDF} style={{width:"100%",background:gerandoPDF?"#1a1a2a":"linear-gradient(135deg,#0a2a0a,#14532d)",border:`1px solid ${gerandoPDF?"#333":"#166534"}`,borderRadius:10,color:gerandoPDF?"#555":"#4ade80",padding:"13px",fontSize:13,fontWeight:700,cursor:gerandoPDF?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:14,transition:"all 0.2s"}}>
-              <span style={{fontSize:18}}>{gerandoPDF?"⏳":"📄"}</span>
-              {gerandoPDF?"Gerando PDF A4...":"Baixar PDF A4 — Minhas Figurinhas"}
-            </button>
-
-            <div style={{background:"#0d0d1f",borderRadius:12,padding:14,border:"1px solid #1e1e35"}}>
-              <div style={{fontSize:13,fontWeight:700,color:"#e0e0e0",marginBottom:12}}>Progresso por Grupo</div>
-              {["A","B","C","D","E","F","G","H","I","J","K","L"].map(g=>{
-                const sels=SELECOES.filter(s=>s.grupo===g);
-                const tot=sels.length*20;
-                const c=sels.reduce((acc,s)=>{for(let i=1;i<=20;i++)if(coladas.has(`${s.id}_${i}`))acc++;return acc;},0);
-                const pct=Math.round((c/tot)*100);
-                return(
-                  <div key={g} style={{marginBottom:10}}>
-                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
-                      <span style={{fontSize:11,color:"#888"}}>Grupo {g} · {sels.map(s=>s.bandeira).join(" ")}</span>
-                      <span style={{fontSize:11,color:"#e8c84a"}}>{c}/{tot}</span>
-                    </div>
-                    <ProgressBar pct={pct} color="#e8c84a"/>
-                  </div>
-                );
-              })}
-            </div>
+                <ProgressBar pct={p}/>
+              </div>;})}
           </div>
-        )}
+        </div>)}
 
-        {/* ABA TROCAS */}
-        {aba==="trocas"&&(
-          <div>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div>
-                <div style={{fontSize:14,fontWeight:700}}>Figurinhas para trocar</div>
-                <div style={{fontSize:11,color:"#555"}}>{totalRepetidas} repetidas</div>
-              </div>
-              <button onClick={copiarTrocas} style={{background:"#1e1e35",border:"1px solid #3a3a60",borderRadius:8,color:"#e8c84a",padding:"8px 12px",fontSize:12,fontWeight:600,cursor:"pointer"}}>📋 Copiar</button>
-            </div>
-            {comRepetidas.length===0?(
-              <div style={{textAlign:"center",color:"#333",padding:60,fontSize:13}}>
-                <div style={{fontSize:32,marginBottom:10}}>🔁</div>
-                Nenhuma repetida ainda.
-              </div>
-            ):(
-              <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                {comRepetidas.map(({sel,reps})=>(
-                  <div key={sel.id} style={{background:"#0d0d1f",borderRadius:12,padding:13,border:"1px solid #1e1e35"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:9}}>
-                      <span style={{fontSize:18}}>{sel.bandeira}</span>
-                      <span style={{fontWeight:700,fontSize:13}}>{sel.nome}</span>
-                      <Badge color="#78350f">{reps.reduce((a,r)=>a+r.rep,0)} rep</Badge>
-                    </div>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-                      {reps.map(r=>(
-                        <div key={r.key} style={{background:"#1a1200",border:"1px solid #78350f",borderRadius:6,padding:"3px 8px",fontSize:10}}>
-                          <span style={{color:"#f59e0b"}}>#{r.num}</span>
-                          <span style={{color:"#888",marginLeft:4}}>{r.label}</span>
-                          <span style={{color:"#f97316",marginLeft:5,fontWeight:700}}>×{r.rep}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+        {aba==="trocas"&&(<div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div><div style={{fontSize:14,fontWeight:800}}>Figurinhas para trocar</div><div style={{fontSize:11,color:FIFA.textDim}}>{totalRepetidas} repetidas</div></div>
+            <button onClick={copiarTrocas} style={{background:FIFA.bgCard2,border:`1px solid ${FIFA.border}`,borderRadius:10,color:FIFA.orange,padding:"9px 13px",fontSize:12,fontWeight:700,cursor:"pointer"}}>📋 Copiar</button>
           </div>
-        )}
+          {comRepetidas.length===0?(<div style={{textAlign:"center",color:FIFA.textDim,padding:60,fontSize:13}}><div style={{fontSize:32,marginBottom:10}}>🔁</div>Nenhuma repetida ainda.</div>):(
+            <div style={{display:"flex",flexDirection:"column",gap:10}}>
+              {comRepetidas.map(({sel,reps})=>(<div key={sel.id} style={{background:FIFA.bgCard,borderRadius:14,padding:14,border:`1px solid ${FIFA.border}`}}>
+                <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:10}}>
+                  <span style={{fontSize:22}}>{sel.bandeira}</span>
+                  <span style={{fontWeight:800,fontSize:13}}>{sel.nome}</span>
+                  <Badge bg="#78350F" fg={FIFA.amber}>{reps.reduce((a,r)=>a+r.rep,0)} rep</Badge>
+                </div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+                  {reps.map(r=><div key={r.key} style={{background:"#1A1200",border:`1px solid ${FIFA.amber}55`,borderRadius:7,padding:"3px 8px",fontSize:10}}><span style={{color:FIFA.amber,fontWeight:700}}>{r.codigo}</span><span style={{color:FIFA.textDim,marginLeft:4}}>{r.label}</span><span style={{color:FIFA.orange,marginLeft:5,fontWeight:800}}>×{r.rep}</span></div>)}
+                </div>
+              </div>))}
+            </div>)}
+        </div>)}
       </div>
 
-      <div style={{textAlign:"center",padding:"16px 0 28px",color:"#222",fontSize:10}}>
-        Copa 2026 · Panini · 980 figurinhas · 48 seleções
-      </div>
+      <div style={{textAlign:"center",padding:"16px 0 28px",color:FIFA.border,fontSize:10}}>FIFA World Cup 26 · Panini · 980 figurinhas · 48 seleções</div>
     </div>
   );
 }
 
 
-// Monta o app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App));
 </script>
